@@ -9,39 +9,39 @@ let variables = {
   lotNo: "RSTR10,10", //String that is 10 characters (5 words) starting at R10
   downTimeType: "D100,1",
   cycleTime: "D101,1",
-  machineOn: "M100",
-  stateStatus: "M101",
-  productOk: "M102",
+  machineOn: "D102.0",
+  stateStatus: "D102.1",
+  productOk: "D102.2",
 
   downTimeType2: "D110,1",
   cycleTime2: "D111,1",
-  machineOn2: "M110",
-  stateStatus2: "M111",
-  productOk2: "M112",
+  machineOn2: "D112.0",
+  stateStatus2: "D112.1",
+  productOk2: "D112.2",
 
   downTimeType3: "D120,1",
   cycleTime3: "D121,1",
-  machineOn3: "M120",
-  stateStatus3: "M121",
-  productOk3: "M122",
+  machineOn3: "D122.0",
+  stateStatus3: "D122.1",
+  productOk3: "D122.2",
 
   downTimeType4: "D130,1",
   cycleTime4: "D131,1",
-  machineOn4: "M130",
-  stateStatus4: "M131",
-  productOk4: "M132",
+  machineOn4: "D132.0",
+  stateStatus4: "D132.1",
+  productOk4: "D132.2",
 
   downTimeType5: "D140,1",
   cycleTime5: "D141,1",
-  machineOn5: "M140",
-  stateStatus5: "M141",
-  productOk5: "M142",
+  machineOn5: "D142.0",
+  stateStatus5: "D142.1",
+  productOk5: "D142.2",
 
   downTimeType6: "D150,1",
   cycleTime6: "D151,1",
-  machineOn6: "M150",
-  stateStatus6: "M151",
-  productOk6: "M152",
+  machineOn6: "D152.0",
+  stateStatus6: "D152.1",
+  productOk6: "D152.2",
 };
 
 conn.initiateConnection(
@@ -595,4 +595,4 @@ setInterval(() => {
     testData.performanceIndicator = 0;
     testData.qualityIndicator = 0;
   }
-}, 4000);
+}, 60000);
