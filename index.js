@@ -260,7 +260,7 @@ const initData = () => {
   oeeIndicator = availableIndicator * performanceIndicator * qualityIndicator;
 
   return (
-    prodTemp, prodTemp2, prodTemp3, prodTemp4, prodTemp5, prodTemp6, 
+    //prodTemp, prodTemp2, prodTemp3, prodTemp4, prodTemp5, prodTemp6, 
     testData = {
       machineNo: machineNo,
       lotNo: lotNo,
@@ -285,7 +285,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData = {
-      machineNo: "First",
+      machineNo: "FIRST",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -552,7 +552,7 @@ const main = async (rawDataItem,demoData) => {
 }
 
 setInterval(async() => {
-  initData();
+  await initData();
   if (testData.lotNo != "undefined" || testData.lotNo != "BAD 255") {
     console.log(testData)
     console.log(testData2)
@@ -566,39 +566,40 @@ setInterval(async() => {
     console.log(demoData4)
     console.log(demoData5)
     console.log(demoData6)
+    prodTemp = 0; prodTemp2 = 0; prodTemp3= 0; prodTemp4 = 0; prodTemp5 = 0; prodTemp6 = 0;
     await main(testData, demoData)
     await main(testData2, demoData2)
     await main(testData3, demoData3)
     await main(testData4, demoData4)
     await main(testData5, demoData5)
     await main(testData6, demoData6)
-    prodTemp = 0; prodTemp2 = 0; prodTemp3= 0; prodTemp4 = 0; prodTemp5 = 0; prodTemp6 = 0;
-    testData.machineOn = false; testData2.machineOn = false; testData3.machineOn = false; testData4.machineOn = false; testData5.machineOn = false; testData6.machineOn = false;
-    demoData.machineOn = false; demoData2.machineOn = false; demoData3.machineOn = false; demoData4.machineOn = false; demoData5.machineOn = false; demoData6.machineOn = false;
-    testData.stateStatus = false; testData2.stateStatus = false; testData3.stateStatus = false; testData4.stateStatus = false; testData5.stateStatus = false; testData6.stateStatus = false;
-    demoData.stateStatus = false; demoData2.stateStatus = false; demoData3.stateStatus = false; demoData4.stateStatus = false; demoData5.stateStatus = false; demoData6.stateStatus = false;
-    testData.machineNo = "0"; testData2.machineNo = "0"; testData3.machineNo = "0"; testData4.machineNo = "0"; testData5.machineNo = "0"; testData6.machineNo = "0";
-    demoData.machineNo = "0"; demoData2.machineNo = "0"; demoData3.machineNo = "0"; demoData4.machineNo = "0"; demoData5.machineNo = "0"; demoData6.machineNo = "0";
-    testData.lotNo = "0"; testData2.lotNo = "0"; testData3.lotNo = "0"; testData4.lotNo = "0"; testData5.lotNo = "0"; testData6.lotNo = "0";
-    demoData.lotNo = "0"; demoData2.lotNo = "0"; demoData3.lotNo = "0"; demoData4.lotNo = "0"; demoData5.lotNo = "0"; demoData6.lotNo = "0";
-    testData.modelNo = "0"; testData2.modelNo = "0"; testData3.modelNo = "0"; testData4.modelNo = "0"; testData5.modelNo = "0"; testData6.modelNo = "0";
-    demoData.modelNo = "0"; demoData2.modelNo = "0"; demoData3.modelNo = "0"; demoData4.modelNo = "0"; demoData5.modelNo = "0"; demoData6.modelNo = "0";
-    testData.target = 0;
-    testData.cycleTime = 0; testData2.cycleTime = 0; testData3.cycleTime = 0; testData4.cycleTime = 0; testData5.cycleTime = 0; testData6.cycleTime = 0;
-    demoData.cycleTime = 0; demoData2.cycleTime = 0; demoData3.cycleTime = 0; demoData4.cycleTime = 0; demoData5.cycleTime = 0; demoData6.cycleTime = 0;
-    testData.prodTemp = prodTemp; testData2.prodTemp = prodTemp; testData3.prodTemp = prodTemp; testData4.prodTemp = prodTemp; testData5.prodTemp = prodTemp; testData6.prodTemp = prodTemp;
-    demoData.prodTemp = prodTemp; demoData2.prodTemp = prodTemp; demoData3.prodTemp = prodTemp; demoData4.prodTemp = prodTemp; demoData5.prodTemp = prodTemp; demoData6.prodTemp = prodTemp;
-    testData.prodTotal = prodTemp; testData2.prodTotal = prodTemp; testData3.prodTotal = prodTemp; testData4.prodTotal = prodTemp; testData5.prodTotal = prodTemp; testData6.prodTotal = prodTemp;
-    demoData.prodTotal = prodTemp; demoData2.prodTotal = prodTemp; demoData3.prodTotal = prodTemp; demoData4.prodTotal = prodTemp; demoData5.prodTotal = prodTemp; demoData6.prodTotal = prodTemp;
-    testData.prodPassed = prodTemp; testData2.prodPassed = prodTemp; testData3.prodPassed = prodTemp; testData4.prodPassed = prodTemp; testData5.prodPassed = prodTemp; testData6.prodPassed = prodTemp;
-    demoData.prodPassed = prodTemp; demoData2.prodPassed = prodTemp; demoData3.prodPassed = prodTemp; demoData4.prodPassed = prodTemp; demoData5.prodPassed = prodTemp; demoData6.prodPassed = prodTemp;
-    testData.prodFailed = 0; testData2.prodFailed = 0; testData3.prodFailed = 0; testData4.prodFailed = 0; testData5.prodFailed = 0; testData6.prodFailed = 0;
-    demoData.prodFailed = 0; demoData2.prodFailed = 0; demoData3.prodFailed = 0; demoData4.prodFailed = 0; demoData5.prodFailed = 0; demoData6.prodFailed = 0;
-    testData.downTimeType = 0; testData2.downTimeType = 0; testData3.downTimeType = 0; testData4.downTimeType = 0; testData5.downTimeType = 0; testData6.downTimeType = 0;
-    demoData.downTimeType = 0; demoData2.downTimeType = 0; demoData3.downTimeType = 0; demoData4.downTimeType = 0; demoData5.downTimeType = 0; demoData6.downTimeType = 0;
-    testData.oeeIndicator = 0;
-    testData.availableIndicator = 0;
-    testData.performanceIndicator = 0;
-    testData.qualityIndicator = 0;
+    //prodTemp = 0; prodTemp2 = 0; prodTemp3= 0; prodTemp4 = 0; prodTemp5 = 0; prodTemp6 = 0;
+    //testData.machineOn = false; testData2.machineOn = false; testData3.machineOn = false; testData4.machineOn = false; testData5.machineOn = false; testData6.machineOn = false;
+    //demoData.machineOn = false; demoData2.machineOn = false; demoData3.machineOn = false; demoData4.machineOn = false; demoData5.machineOn = false; demoData6.machineOn = false;
+    //testData.stateStatus = false; testData2.stateStatus = false; testData3.stateStatus = false; testData4.stateStatus = false; testData5.stateStatus = false; testData6.stateStatus = false;
+    //demoData.stateStatus = false; demoData2.stateStatus = false; demoData3.stateStatus = false; demoData4.stateStatus = false; demoData5.stateStatus = false; demoData6.stateStatus = false;
+    //testData.machineNo = "0"; testData2.machineNo = "0"; testData3.machineNo = "0"; testData4.machineNo = "0"; testData5.machineNo = "0"; testData6.machineNo = "0";
+    //demoData.machineNo = "0"; demoData2.machineNo = "0"; demoData3.machineNo = "0"; demoData4.machineNo = "0"; demoData5.machineNo = "0"; demoData6.machineNo = "0";
+    //testData.lotNo = "0"; testData2.lotNo = "0"; testData3.lotNo = "0"; testData4.lotNo = "0"; testData5.lotNo = "0"; testData6.lotNo = "0";
+    //demoData.lotNo = "0"; demoData2.lotNo = "0"; demoData3.lotNo = "0"; demoData4.lotNo = "0"; demoData5.lotNo = "0"; demoData6.lotNo = "0";
+    //testData.modelNo = "0"; testData2.modelNo = "0"; testData3.modelNo = "0"; testData4.modelNo = "0"; testData5.modelNo = "0"; testData6.modelNo = "0";
+    //demoData.modelNo = "0"; demoData2.modelNo = "0"; demoData3.modelNo = "0"; demoData4.modelNo = "0"; demoData5.modelNo = "0"; demoData6.modelNo = "0";
+    //testData.target = 0;
+    //testData.cycleTime = 0; testData2.cycleTime = 0; testData3.cycleTime = 0; testData4.cycleTime = 0; testData5.cycleTime = 0; testData6.cycleTime = 0;
+    //demoData.cycleTime = 0; demoData2.cycleTime = 0; demoData3.cycleTime = 0; demoData4.cycleTime = 0; demoData5.cycleTime = 0; demoData6.cycleTime = 0;
+    //testData.prodTemp = prodTemp; testData2.prodTemp = prodTemp; testData3.prodTemp = prodTemp; testData4.prodTemp = prodTemp; testData5.prodTemp = prodTemp; testData6.prodTemp = prodTemp;
+    //demoData.prodTemp = prodTemp; demoData2.prodTemp = prodTemp; demoData3.prodTemp = prodTemp; demoData4.prodTemp = prodTemp; demoData5.prodTemp = prodTemp; demoData6.prodTemp = prodTemp;
+    //testData.prodTotal = prodTemp; testData2.prodTotal = prodTemp; testData3.prodTotal = prodTemp; testData4.prodTotal = prodTemp; testData5.prodTotal = prodTemp; testData6.prodTotal = prodTemp;
+    //demoData.prodTotal = prodTemp; demoData2.prodTotal = prodTemp; demoData3.prodTotal = prodTemp; demoData4.prodTotal = prodTemp; demoData5.prodTotal = prodTemp; demoData6.prodTotal = prodTemp;
+    //testData.prodPassed = prodTemp; testData2.prodPassed = prodTemp; testData3.prodPassed = prodTemp; testData4.prodPassed = prodTemp; testData5.prodPassed = prodTemp; testData6.prodPassed = prodTemp;
+    //demoData.prodPassed = prodTemp; demoData2.prodPassed = prodTemp; demoData3.prodPassed = prodTemp; demoData4.prodPassed = prodTemp; demoData5.prodPassed = prodTemp; demoData6.prodPassed = prodTemp;
+    //testData.prodFailed = 0; testData2.prodFailed = 0; testData3.prodFailed = 0; testData4.prodFailed = 0; testData5.prodFailed = 0; testData6.prodFailed = 0;
+    //demoData.prodFailed = 0; demoData2.prodFailed = 0; demoData3.prodFailed = 0; demoData4.prodFailed = 0; demoData5.prodFailed = 0; demoData6.prodFailed = 0;
+    //testData.downTimeType = 0; testData2.downTimeType = 0; testData3.downTimeType = 0; testData4.downTimeType = 0; testData5.downTimeType = 0; testData6.downTimeType = 0;
+    //demoData.downTimeType = 0; demoData2.downTimeType = 0; demoData3.downTimeType = 0; demoData4.downTimeType = 0; demoData5.downTimeType = 0; demoData6.downTimeType = 0;
+    //testData.oeeIndicator = 0;
+    //testData.availableIndicator = 0;
+    //testData.performanceIndicator = 0;
+    //testData.qualityIndicator = 0;
   }
 }, 60000);
