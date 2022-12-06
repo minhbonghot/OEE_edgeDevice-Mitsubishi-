@@ -200,7 +200,7 @@ function valuesReady(err, values) {
   }
 }
 
-initData = () => {
+const initData = () => {
   let present = new Date();
   let year = present.getFullYear();
   let month = present.getMonth() + 1;
@@ -551,7 +551,7 @@ const main = async (rawDataItem,demoData) => {
   }
 }
 
-setInterval(() => {
+setInterval(async() => {
   initData();
   if (testData.lotNo != "undefined" || testData.lotNo != "BAD 255") {
     console.log(testData)
@@ -560,12 +560,18 @@ setInterval(() => {
     console.log(testData4)
     console.log(testData5)
     console.log(testData6)
-    main(testData, demoData)
-    main(testData2, demoData2)
-    main(testData3, demoData3)
-    main(testData4, demoData4)
-    main(testData5, demoData5)
-    main(testData6, demoData6)
+    console.log(demoData)
+    console.log(demoData2)
+    console.log(demoData3)
+    console.log(demoData4)
+    console.log(demoData5)
+    console.log(demoData6)
+    await main(testData, demoData)
+    await main(testData2, demoData2)
+    await main(testData3, demoData3)
+    await main(testData4, demoData4)
+    await main(testData5, demoData5)
+    await main(testData6, demoData6)
     prodTemp = 0; prodTemp2 = 0; prodTemp3= 0; prodTemp4 = 0; prodTemp5 = 0; prodTemp6 = 0;
     testData.machineOn = false; testData2.machineOn = false; testData3.machineOn = false; testData4.machineOn = false; testData5.machineOn = false; testData6.machineOn = false;
     demoData.machineOn = false; demoData2.machineOn = false; demoData3.machineOn = false; demoData4.machineOn = false; demoData5.machineOn = false; demoData6.machineOn = false;
