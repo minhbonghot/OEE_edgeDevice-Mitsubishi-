@@ -264,17 +264,18 @@ function valuesReady(err, values) {
   }
   doneReading = true;
   if (doneReading) {
+   
     // counting product 1 
-    // if (values.productOk == false) {
-    //   confirmSignal = true;
-    // }
-    // if (values.productOk && confirmSignal) {
-    //   prodTemp++;
-    //   confirmSignal = false;
-    //   console.log('minh')
-    // }
+    if (values.productOk == false) {
+      confirmSignal = true;
+    }
+    if (values.productOk && confirmSignal) {
+      prodTemp++;
+      confirmSignal = false;
+      console.log('minh')
+    }
     // counting product 1 
-    count({productOk: values.productOk, confirmSignala: confirmSignal})
+    // count({productOk: values.productOk, confirmSignala: confirmSignal})
     // count(values.productOk2, confirmSignal2, prodTemp2 )
     // count(values.productOk3, confirmSignal3, prodTemp3)
     // count(values.productOk4, confirmSignal4, prodTemp4)

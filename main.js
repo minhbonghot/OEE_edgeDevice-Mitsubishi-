@@ -61,17 +61,17 @@ for (let i = 0; i < totalMachines; i++) {
   variablesForConnection[`downTimeType${i + 1}`] = `D${interval},1`;
   variablesForConnection[`cycleTime${i + 1}`] = `D${interval + 1},1`;
   variablesForConnection[`machineOn${i + 1}`] = `D${interval + 2}.0`;
-  variablesForConnection[`stateStatus${i + 1}`] = `D${interval + 1}.1`;
-  variablesForConnection[`productOk${i + 1}`] = `D${interval + 1}.2`;
+  variablesForConnection[`stateStatus${i + 1}`] = `D${interval + 2}.1`;
+  variablesForConnection[`productOk${i + 1}`] = `D${interval + 2}.2`;
 
   globalVariables[`downTimeType${i + 1}`] = "";
   globalVariables[`cycleTime${i + 1}`] = "";
-  globalVariables[`machineOn${i + 1}`] = "";
-  globalVariables[`stateStatus${i + 1}`] = "";
-  globalVariables[`productOk${i + 1}`] = "";
+  globalVariables[`machineOn${i + 1}`] = false;
+  globalVariables[`stateStatus${i + 1}`] = false;
+  globalVariables[`productOk${i + 1}`] = false;
 
-  globalVariables[`prodTemp${i + 1}`] = "";
-  globalVariables[`confirmSignal${i + 1}`] = "";
+  globalVariables[`prodTemp${i + 1}`] = 0;
+  globalVariables[`confirmSignal${i + 1}`] = false;
   globalVariables[`machineNo${i + 1}`] = machineNames[i];
   globalVariables[`prodTotal${i + 1}`] = "";
   globalVariables[`prodPassed${i + 1}`] = "";
@@ -110,18 +110,20 @@ function valuesReady(err, values) {
     return;
   }
   for (let i = 0; i < totalMachines; i++) {
-    globalVariables[`productOk${i + 1}`] = values[`productOk${i + 1}`];
-    globalVariables[`confirmSignal${i + 1}`] = values[`confirmSignal${i + 1}`];
-    globalVariables[`prodTemp${i + 1}`] = values[`prodTemp${i + 1}`];
+    // globalVariables[`productOk${i + 1}`] = values[`productOk${i + 1}`];
+    // globalVariables[`confirmSignal${i + 1}`] = values[`confirmSignal${i + 1}`];
+    // globalVariables[`prodTemp${i + 1}`] = values[`prodTemp${i + 1}`];
 
     globalVariables[`cycleTime${i + 1}`] =
       Number(values[`cycleTime${i + 1}`]) / 10;
-    globalVariables[`downTimeType${i + 1}`] = "";
-    globalVariables[`machineOn${i + 1}`] = "";
-    globalVariables[`stateStatus${i + 1}`] = "";
+    globalVariables[`downTimeType${i + 1}`] = values[`downTimeType${i + 1}`];
+    globalVariables[`machineOn${i + 1}`] = values[`machineOn${i + 1}`];
+    globalVariables[`stateStatus${i + 1}`] = values[`stateStatus${i + 1}`];
     globalVariables[`machineNo${i + 1}`] = machineNames[i];
 
-    if (values[`productOk${i + 1}`] === false) {
+    // count
+
+    if (values[`productOk${i + 1}`] == false) {
       globalVariables[`confirmSignal${i + 1}`] = true;
     }
     if (
@@ -198,7 +200,6 @@ const assignAndPushData = async () => {
           ...obj[`rawData${i + 1}`],
           machineNo: demoMachineNames[i],
         };
-        // array.push(obj)
       }
 
       // Ouput final data
@@ -243,4 +244,4 @@ function regex(str) {
 // Push data after 1 minute
 setInterval(() => {
   assignAndPushData();
-}, 10000);
+}, 60000);
