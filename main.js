@@ -6,19 +6,18 @@ const machineNames = [
   "STEM_ROUGH",
   "LATHE_HEAD1",
   "LATHE_HEAD2",
-  "LATHE_HEAD3",
-  "LATHE_HEAD4",
-  "LATHE_HEAD5",
-  "LATHE_HEAD6",
-  "LATHE_HEAD7",
-  "LATHE_HEAD8",
-  "LATHE_HEAD9",
-  "LATHE_HEAD10",
-  "LATHE_HEAD11",
-  "LATHE_HEAD12",
-  "LATHE_HEAD13",
-  "LATHE_HEAD14",
-  "LATHE_HEAD15",
+  "LATHE_SEAT1",
+  "LATHE_SEAT2",
+  "LATHE_CHAMBER",
+  "LATHE_7",
+  "LATHE_8",
+  "LATHE_9",
+  "LATHE_10",
+  "LATHE_11",
+  "LATHE_12",
+  "LATHE_13",
+  "LATHE_14",
+  "LATHE_15",
 ];
 
 const demoMachineNames = [
@@ -38,6 +37,7 @@ const demoMachineNames = [
   "Demo 14",
   "Demo 15",
 ];
+
 const totalMachines = 15;
 
 // Variables
