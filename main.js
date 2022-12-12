@@ -98,11 +98,17 @@ function connected(err) {
   Object.keys(variablesForConnection).forEach((key) => {
     conn.addItems(key);
   });
+  
+  let readVar = () => {
+    conn.readAllItems(valuesReady)
+    timer1 = setTimeout(readVar, 100)
+  }  
 
-  setInterval(() => {
-    conn.readAllItems(valuesReady);
-  }, 100);
-}
+  timer1 = setTimeout(readVar, 100)
+//   setInterval(() => {
+//     conn.readAllItems(valuesReady);
+//   }, 100);
+} 
 
 function valuesReady(err, values) {
   if (err) {
@@ -224,11 +230,14 @@ const assignAndPushData = async () => {
       await Promise.any(queries);
     }
 
-    timer2 = setTimeout (assignAndPushData, 60000)
+    timer2 = setTimeout(assignAndPushData, 60000)
   } catch (error) {
     console.log(error);
   }
 };
+
+// Push data after 1 minute
+timer2 = setTimeout(assignAndPushData, 60000);
 
 function cutString(arr) {
   let newName = "";
@@ -244,8 +253,7 @@ function regex(str) {
   return str.replace(/[ ]/g, "");
 }
 
-// Push data after 1 minute
-timer2 = setTimeout (assignAndPushData, 60000)
+
   // setInterval(() => {
   //   assignAndPushData();
   // }, 1000);
