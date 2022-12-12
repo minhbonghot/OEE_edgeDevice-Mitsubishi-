@@ -140,6 +140,7 @@ function valuesReady(err, values) {
   globalVariables.modelNo = regex(cutString(values.modelNo));
 }
 
+
 const assignAndPushData = async () => {
   try {
     let present = new Date();
@@ -220,8 +221,10 @@ const assignAndPushData = async () => {
         }
       });
 
-      await Promise.all(queries);
+      await Promise.any(queries);
     }
+
+    timer2 = setTimeout (assignAndPushData, 60000)
   } catch (error) {
     console.log(error);
   }
@@ -242,6 +245,7 @@ function regex(str) {
 }
 
 // Push data after 1 minute
-setInterval(() => {
-  assignAndPushData();
-}, 60000);
+timer2 = setTimeout (assignAndPushData, 60000)
+  // setInterval(() => {
+  //   assignAndPushData();
+  // }, 1000);
