@@ -243,20 +243,20 @@ function regex(str) {
   return str.replace(/[ ]/g,'')
 }
 
-function count({productOk, confirmSignala}) {
-  if (productOk == false) {
-    confirmSignal = true;
-    return
-  }
-  if (productOk && confirmSignala) {
-    prodTemp++;
-    confirmSignal = false;
-    console.log('minh')
-  }
-  console.log('productOk', productOk)
-  console.log('confirmSignal', confirmSignal)
-  console.log('prodTemp', prodTemp)
-}
+// function count({productOk, confirmSignala}) {
+//   if (productOk == false) {
+//     confirmSignal = true;
+//     return
+//   }
+//   if (productOk && confirmSignala) {
+//     prodTemp++;
+//     confirmSignal = false;
+//     console.log('minh')
+//   }
+//   console.log('productOk', productOk)
+//   console.log('confirmSignal', confirmSignal)
+//   console.log('prodTemp', prodTemp)
+// }
 
 function valuesReady(err, values) {
   if (err) {
@@ -272,88 +272,71 @@ function valuesReady(err, values) {
     if (values.productOk && confirmSignal) {
       prodTemp++;
       confirmSignal = false;
-      console.log('minh')
     }
-    // counting product 1 
-    // count({productOk: values.productOk, confirmSignala: confirmSignal})
-    // count(values.productOk2, confirmSignal2, prodTemp2 )
-    // count(values.productOk3, confirmSignal3, prodTemp3)
-    // count(values.productOk4, confirmSignal4, prodTemp4)
-    // count(values.productOk5, confirmSignal5, prodTemp5)
-    // count(values.productOk6, confirmSignal6, prodTemp6)
-    // count(values.productOk7, confirmSignal7, prodTemp7)
-    // count(values.productOk8, confirmSignal8, prodTemp8)
-    // count(values.productOk9, confirmSignal9, prodTemp9)
-    // prodTemp10 = count(values.productOk10, confirmSignal10, prodTemp10)
-    // prodTemp11 = count(values.productOk11, confirmSignal11, prodTemp11)
-    // prodTemp12 = count(values.productOk12, confirmSignal12, prodTemp12)
-    // prodTemp13 = count(values.productOk13, confirmSignal13, prodTemp13)
-    // prodTemp14 = count(values.productOk14, confirmSignal14, prodTemp14)
-    // prodTemp15 = count(values.productOk15, confirmSignal15, prodTemp15)
     // counting product 2 
-    //  if (values.productOk2 == false) {
-    //   confirmSignal2 = true;
-    // }
-    // if (values.productOk2 && confirmSignal2) {
-    //   prodTemp2++;
-    //   confirmSignal2 = false;
-    // }
-    //  // counting product 3 
-    //  if (values.productOk3 == false) {
-    //   confirmSignal3 = true;
-    // }
-    // if (values.productOk3 && confirmSignal3) {
-    //   prodTemp3++;
-    //   confirmSignal3 = false;
-    // }
-    //  // counting product 4 
-    //  if (values.productOk4 == false) {
-    //   confirmSignal4 = true;
-    // }
-    // if (values.productOk4 && confirmSignal4) {
-    //   prodTemp4++;
-    //   confirmSignal4 = false;
-    // }
-    //  // counting product 5 
-    //  if (values.productOk5 == false) {
-    //   confirmSignal5 = true;
-    // }
-    // if (values.productOk5 && confirmSignal5) {
-    //   prodTemp5++;
-    //   confirmSignal5 = false;
-    // }
-    //  // counting product 6 
-    //  if (values.productOk6 == false) {
-    //   confirmSignal6 = true;
-    // }
-    // if (values.productOk6 && confirmSignal6) {
-    //   prodTemp6++;
-    //   confirmSignal6 = false;
-    // }
-    //  // counting product 7 
-    //  if (values.productOk7 == false) {
-    //   confirmSignal7 = true;
-    // }
-    // if (values.productOk7 && confirmSignal7) {
-    //   prodTemp7++;
-    //   confirmSignal7 = false;
-    // }  
-    //  // counting product 8 
-    //  if (values.productOk8 == false) {
-    //   confirmSignal8 = true;
-    // }
-    // if (values.productOk8 && confirmSignal8) {
-    //   prodTemp8++;
-    //   confirmSignal8 = false;
-    // }  
-    //  // counting product 9 
-    //  if (values.productOk9 == false) {
-    //   confirmSignal9 = true;
-    // }
-    // if (values.productOk9 && confirmSignal9) {
-    //   prodTemp9++;
-    //   confirmSignal9 = false;
-    // }  
+     if (values.productOk2 == false) {
+      confirmSignal2 = true;
+    }
+    if (values.productOk2 && confirmSignal2) {
+      prodTemp2++;
+      confirmSignal2 = false;
+    }
+     // counting product 3 
+     if (values.productOk3 == false) {
+      confirmSignal3 = true;
+    }
+    if (values.productOk3 && confirmSignal3) {
+      prodTemp3++;
+      confirmSignal3 = false;
+    }
+     // counting product 4 
+     if (values.productOk4 == false) {
+      confirmSignal4 = true;
+    }
+    if (values.productOk4 && confirmSignal4) {
+      prodTemp4++;
+      confirmSignal4 = false;
+    }
+     // counting product 5 
+     if (values.productOk5 == false) {
+      confirmSignal5 = true;
+    }
+    if (values.productOk5 && confirmSignal5) {
+      prodTemp5++;
+      confirmSignal5 = false;
+    }
+     // counting product 6 
+     if (values.productOk6 == false) {
+      confirmSignal6 = true;
+    }
+    if (values.productOk6 && confirmSignal6) {
+      prodTemp6++;
+      confirmSignal6 = false;
+    }
+     // counting product 7 
+     if (values.productOk7 == false) {
+      confirmSignal7 = true;
+    }
+    if (values.productOk7 && confirmSignal7) {
+      prodTemp7++;
+      confirmSignal7 = false;
+    }  
+     // counting product 8 
+     if (values.productOk8 == false) {
+      confirmSignal8 = true;
+    }
+    if (values.productOk8 && confirmSignal8) {
+      prodTemp8++;
+      confirmSignal8 = false;
+    }  
+     // counting product 9 
+     if (values.productOk9 == false) {
+      confirmSignal9 = true;
+    }
+    if (values.productOk9 && confirmSignal9) {
+      prodTemp9++;
+      confirmSignal9 = false;
+    }  
      // counting product 10 
      if (values.productOk10 == false) {
       confirmSignal10 = true;
@@ -409,7 +392,7 @@ function valuesReady(err, values) {
     // define data from PLC to P13
     machineOn = values.machineOn; machineOn2 = values.machineOn2; machineOn3 = values.machineOn3; machineOn4 = values.machineOn4; machineOn5 = values.machineOn5; machineOn6 = values.machineOn6; machineOn7 = values.machineOn7; machineOn8 = values.machineOn8; machineOn9 = values.machineOn9; machineOn10 = values.machineOn10; machineOn11 = values.machineOn11; machineOn12 = values.machineOn12; machineOn13 = values.machineOn13; machineOn14 = values.machineOn14; machineOn15 = values.machineOn15;
     stateStatus = values.stateStatus; stateStatus2 = values.stateStatus2; stateStatus3 = values.stateStatus3; stateStatus4 = values.stateStatus4; stateStatus5 = values.stateStatus5; stateStatus6 = values.stateStatus6; stateStatus7 = values.stateStatus7; stateStatus8 = values.stateStatus8; stateStatus9 = values.stateStatus9; stateStatus10 = values.stateStatus10; stateStatus11 = values.stateStatus11; stateStatus12 = values.stateStatus12; stateStatus13 = values.stateStatus13; stateStatus14 = values.stateStatus14; stateStatus15 = values.stateStatus15;
-    machineNo = "STEM_ROUGH"; machineNo2 = "LATHE_HEAD1"; machineNo3 = "LATHE_HEAD2"; machineNo4 = "LATHE_SEAT1"; machineNo5 = "LATHE_SEAT2"; machineNo6 = "LATHE_CHAMBER"; machineNo7 = "LATHE_CHAMBER7"; machineNo8 = "LATHE_CHAMBE8"; machineNo9 = "LATHE_CHAMBE9"; machineNo10 = "LATHE_CHAMBE10"; machineNo11 = "LATHE_CHAMBE11"; machineNo12 = "LATHE_CHAMBE12"; machineNo13 = "LATHE_CHAMBE13"; machineNo14 = "LATHE_CHAMBE14"; machineNo15 = "LATHE_CHAMBE15";
+    machineNo = "STEM_ROUGH"; machineNo2 = "LATHE_HEAD1"; machineNo3 = "LATHE_HEAD2"; machineNo4 = "LATHE_SEAT1"; machineNo5 = "LATHE_SEAT2"; machineNo6 = "LATHE_CHAMBER"; machineNo7 = "LATHE_7"; machineNo8 = "LATHE_8"; machineNo9 = "LATHE_9"; machineNo10 = "LATHE_10"; machineNo11 = "LATHE_11"; machineNo12 = "LATHE_12"; machineNo13 = "LATHE_13"; machineNo14 = "LATHE_14"; machineNo15 = "LATHE_15";
     lotNo = regex(cutString(values.lotNo));
     modelNo = regex(cutString(values.modelNo));
     cycleTime = values.cycleTime / 10; cycleTime2 = values.cycleTime2 / 10; cycleTime3 = values.cycleTime3 / 10; cycleTime4 = values.cycleTime4 / 10; cycleTime5 = values.cycleTime5 / 10; cycleTime6 = values.cycleTime6 / 10; cycleTime7 = values.cycleTime7 / 10; cycleTime8 = values.cycleTime8 / 10; cycleTime9 = values.cycleTime9 / 10; cycleTime10 = values.cycleTime10 / 10; cycleTime11 = values.cycleTime11 / 10; cycleTime12 = values.cycleTime12 / 10; cycleTime13 = values.cycleTime13 / 10; cycleTime14 = values.cycleTime14 / 10; cycleTime15 = values.cycleTime15 / 10;
@@ -502,7 +485,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData = {
-      machineNo: "FIRST",
+      machineNo: "Demo 1",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -548,7 +531,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData2 = {
-      machineNo: "SECOND",
+      machineNo: "Demo 2",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -594,7 +577,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData3 = {
-      machineNo: "THIRD",
+      machineNo: "Demo 3",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -640,7 +623,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData4 = {
-      machineNo: "FOURTH",
+      machineNo: "Demo 4",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -686,7 +669,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData5 = {
-      machineNo: "FIFTH",
+      machineNo: "Demo 5",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -732,7 +715,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData6 = {
-      machineNo: "SIXTH",
+      machineNo: "Demo 6",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -778,7 +761,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData7 = {
-      machineNo: "7",
+      machineNo: "Demo 7",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -824,7 +807,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData8 = {
-      machineNo: "8",
+      machineNo: "Demo 8",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -870,7 +853,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData9 = {
-      machineNo: "9",
+      machineNo: "Demo 9",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -916,7 +899,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData10 = {
-      machineNo: "10",
+      machineNo: "Demo 10",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -962,7 +945,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData11 = {
-      machineNo: "11",
+      machineNo: "Demo 11",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -1008,7 +991,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData12 = {
-      machineNo: "12",
+      machineNo: "Demo 12",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -1054,7 +1037,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData13 = {
-      machineNo: "13",
+      machineNo: "Demo 13",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -1100,7 +1083,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData14 = {
-      machineNo: "14",
+      machineNo: "Demo 14",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -1146,7 +1129,7 @@ const initData = () => {
       dateCreated: String(dateCreated),
     },
     demoData15 = {
-      machineNo: "15",
+      machineNo: "Demo 15",
       lotNo: lotNo,
       modelNo: modelNo,
       target: target,
@@ -1183,45 +1166,45 @@ const main = async (rawDataItem,demoData) => {
 }
 
 setInterval(async() => {
-  await initData();
+  initData();
   if (testData.lotNo != "undefined" || testData.lotNo != "BAD 255") {
     console.log(testData)
-    // console.log(testData2)
-    // console.log(testData3)
-    // console.log(testData4)
-    // console.log(testData5)
-    // console.log(testData6)
-    // console.log(demoData)
-    // console.log(demoData2)
-    // console.log(demoData3)
-    // console.log(demoData4)
-    // console.log(demoData5)
-    // console.log(demoData6)
-    // console.log(demoData7)
-    // console.log(demoData8)
-    // console.log(demoData9)
-    // console.log(demoData10)
-    // console.log(demoData11)
-    // console.log(demoData12)
-    // console.log(demoData13)
-    // console.log(demoData14)
-    // console.log(demoData15)
+    console.log(testData2)
+    console.log(testData3)
+    console.log(testData4)
+    console.log(testData5)
+    console.log(testData6)
+    console.log(demoData)
+    console.log(demoData2)
+    console.log(demoData3)
+    console.log(demoData4)
+    console.log(demoData5)
+    console.log(demoData6)
+    console.log(demoData7)
+    console.log(demoData8)
+    console.log(demoData9)
+    console.log(demoData10)
+    console.log(demoData11)
+    console.log(demoData12)
+    console.log(demoData13)
+    console.log(demoData14)
+    console.log(demoData15)
     prodTemp = 0; prodTemp2 = 0; prodTemp3= 0; prodTemp4 = 0; prodTemp5 = 0; prodTemp6 = 0; prodTemp7 = 0; prodTemp8 = 0; prodTemp9 = 0; prodTemp10 = 0; prodTemp11 = 0; prodTemp12 = 0; prodTemp13 = 0; prodTemp14 = 0; prodTemp15 = 0;
-    // await main(testData, demoData)
-    // await main(testData2, demoData2)
-    // await main(testData3, demoData3)
-    // await main(testData4, demoData4)
-    // await main(testData5, demoData5)
-    // await main(testData6, demoData6)
-    // await main(testData7, demoData7)
-    // await main(testData8, demoData8)
-    // await main(testData9, demoData9)
-    // await main(testData10, demoData10)
-    // await main(testData11, demoData11)
-    // await main(testData12, demoData12)
-    // await main(testData13, demoData13)
-    // await main(testData14, demoData14)
-    // await main(testData15, demoData15)
+    await main(testData, demoData)
+    await main(testData2, demoData2)
+    await main(testData3, demoData3)
+    await main(testData4, demoData4)
+    await main(testData5, demoData5)
+    await main(testData6, demoData6)
+    await main(testData7, demoData7)
+    await main(testData8, demoData8)
+    await main(testData9, demoData9)
+    await main(testData10, demoData10)
+    await main(testData11, demoData11)
+    await main(testData12, demoData12)
+    await main(testData13, demoData13)
+    await main(testData14, demoData14)
+    await main(testData15, demoData15)
     //prodTemp = 0; prodTemp2 = 0; prodTemp3= 0; prodTemp4 = 0; prodTemp5 = 0; prodTemp6 = 0;
     //testData.machineOn = false; testData2.machineOn = false; testData3.machineOn = false; testData4.machineOn = false; testData5.machineOn = false; testData6.machineOn = false;
     //demoData.machineOn = false; demoData2.machineOn = false; demoData3.machineOn = false; demoData4.machineOn = false; demoData5.machineOn = false; demoData6.machineOn = false;
@@ -1251,4 +1234,4 @@ setInterval(async() => {
     //testData.performanceIndicator = 0;
     //testData.qualityIndicator = 0;
   }
-}, 10000);
+}, 60000);
