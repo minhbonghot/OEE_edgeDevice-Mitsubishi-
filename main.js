@@ -98,13 +98,19 @@ function connected(err) {
   Object.keys(variablesForConnection).forEach((key) => {
     conn.addItems(key);
   });
-  
-  let readVar = () => {
-    conn.readAllItems(valuesReady)
-    timer1 = setTimeout(readVar, 100)
-  }  
 
-  timer1 = setTimeout(readVar, 100)
+  (function loop1() {
+    conn.readAllItems(valuesReady)
+    setTimeout(loop1, 100)
+  })();
+  
+  // let readVar = () => {
+  //   conn.readAllItems(valuesReady)
+  //   timer1 = setTimeout(readVar, 100)
+  // }  
+
+  // timer1 = setTimeout(readVar, 100)
+
 //   setInterval(() => {
 //     conn.readAllItems(valuesReady);
 //   }, 100);
@@ -147,7 +153,8 @@ function valuesReady(err, values) {
 }
 
 
-const assignAndPushData = async () => {
+// const assignAndPushData = async () => {
+  (async function assignAndPushData () {
   try {
     let present = new Date();
     let year = present.getFullYear();
@@ -229,15 +236,15 @@ const assignAndPushData = async () => {
 
       await Promise.any(queries);
     }
-
-    timer2 = setTimeout(assignAndPushData, 60000)
+    setTimeout(assignAndPushData, 60000)
   } catch (error) {
     console.log(error);
   }
-};
+}) ();
 
 // Push data after 1 minute
-timer2 = setTimeout(assignAndPushData, 60000);
+// timer2 = setTimeout(assignAndPushData, 10000);
+
 
 function cutString(arr) {
   let newName = "";
