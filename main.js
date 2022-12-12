@@ -242,7 +242,7 @@ function valuesReady(err, values) {
         console.log(error);
       }
       assignAndPushData();
-    }, 10000) 
+    }, 60000) 
   })();
 
 // Push data after 1 minute
