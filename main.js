@@ -219,22 +219,22 @@ function valuesReady(err, values) {
           // Ouput final data
           console.log(obj);
     
-          let queries = Object.keys(obj).map((key) => {
-            if (key.includes("demo")) {
-              return axios.post(
-                "https://oee.pambu.org/demo/api/v1/rawData",
-                obj[key]
-              );
-            }
-            if (key.includes("raw")) {
-              return axios.post(
-                "https://oee.pambu.org/nittan/api/v1/rawData",
-                obj[key]
-              );
-            }
-          });
+          // let queries = Object.keys(obj).map((key) => {
+          //   if (key.includes("demo")) {
+          //     return axios.post(
+          //       "https://oee.pambu.org/demo/api/v1/rawData",
+          //       obj[key]
+          //     );
+          //   }
+          //   if (key.includes("raw")) {
+          //     return axios.post(
+          //       "https://oee.pambu.org/nittan/api/v1/rawData",
+          //       obj[key]
+          //     );
+          //   }
+          // });
     
-          await Promise.any(queries);
+          // await Promise.any(queries);
         }
         // setTimeout(assignAndPushData, 10000)
       } catch (error) {
