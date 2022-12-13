@@ -210,10 +210,10 @@ function valuesReady(err, values) {
               dateCreated: String(dateCreated),
             };
     
-            obj[`demoData${i + 1}`] = {
-              ...obj[`rawData${i + 1}`],
-              machineNo: demoMachineNames[i],
-            };
+            // obj[`demoData${i + 1}`] = {
+            //   ...obj[`rawData${i + 1}`],
+            //   machineNo: demoMachineNames[i],
+            // };
           }
     
           // Ouput final data
