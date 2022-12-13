@@ -154,7 +154,8 @@ function valuesReady(err, values) {
         for (let i = 0; i < totalMachines; i++) {
           productVariables[`prodTotal${i + 1}`] = "";
           productVariables[`prodPassed${i + 1}`] = "";
-          productVariables[`prodFailed${i + 1}`] = "";}
+          productVariables[`prodFailed${i + 1}`] = "";
+        }
         let present = new Date();
         let year = present.getFullYear();
         let month = (present.getMonth() + 1).toString().padStart(2, "0");
@@ -218,22 +219,22 @@ function valuesReady(err, values) {
           // Ouput final data
           console.log(obj);
     
-          let queries = Object.keys(obj).map((key) => {
-            if (key.includes("demo")) {
-              return axios.post(
-                "https://oee.pambu.org/demo/api/v1/rawData",
-                obj[key]
-              );
-            }
-            if (key.includes("raw")) {
-              return axios.post(
-                "https://oee.pambu.org/nittan/api/v1/rawData",
-                obj[key]
-              );
-            }
-          });
+          // let queries = Object.keys(obj).map((key) => {
+          //   if (key.includes("demo")) {
+          //     return axios.post(
+          //       "https://oee.pambu.org/demo/api/v1/rawData",
+          //       obj[key]
+          //     );
+          //   }
+          //   if (key.includes("raw")) {
+          //     return axios.post(
+          //       "https://oee.pambu.org/nittan/api/v1/rawData",
+          //       obj[key]
+          //     );
+          //   }
+          // });
     
-          await Promise.any(queries);
+          // await Promise.any(queries);
         }
         // setTimeout(assignAndPushData, 10000)
       } catch (error) {
