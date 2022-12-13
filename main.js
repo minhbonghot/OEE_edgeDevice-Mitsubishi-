@@ -147,102 +147,102 @@ function valuesReady(err, values) {
 
 
 // const assignAndPushData = async () => {
-  (function assignAndPushData () {
-    setTimeout(async function () {
-      try {
-        let productVariables = {};
-        for (let i = 0; i < totalMachines; i++) {
-          productVariables[`prodTotal${i + 1}`] = "";
-          productVariables[`prodPassed${i + 1}`] = "";
-          productVariables[`prodFailed${i + 1}`] = "";
-        }
-        let present = new Date();
-        let year = present.getFullYear();
-        let month = (present.getMonth() + 1).toString().padStart(2, "0");
-        let day = present.getDate().toString().padStart(2, "0");
-        let hour = present.getHours().toString().padStart(2, "0");
-        let minute = present.getMinutes().toString().padStart(2, "0");
+  // (function assignAndPushData () {
+  //   setTimeout(async function () {
+  //     try {
+  //       let productVariables = {};
+  //       for (let i = 0; i < totalMachines; i++) {
+  //         productVariables[`prodTotal${i + 1}`] = "";
+  //         productVariables[`prodPassed${i + 1}`] = "";
+  //         productVariables[`prodFailed${i + 1}`] = "";
+  //       }
+  //       let present = new Date();
+  //       let year = present.getFullYear();
+  //       let month = (present.getMonth() + 1).toString().padStart(2, "0");
+  //       let day = present.getDate().toString().padStart(2, "0");
+  //       let hour = present.getHours().toString().padStart(2, "0");
+  //       let minute = present.getMinutes().toString().padStart(2, "0");
     
-        let dateCreated = `${year}-${month}-${day}T${hour}:${minute}:00.000Z`;
+  //       let dateCreated = `${year}-${month}-${day}T${hour}:${minute}:00.000Z`;
     
-        // assign productTotal, productPassed, productFailed wit productTemp
-        for (let i = 0; i < totalMachines; i++) {
-          productVariables[`prodTotal${i + 1}`] =
-            globalVariables[`prodTemp${i + 1}`];
-          productVariables[`prodPassed${i + 1}`] =
-            globalVariables[`prodTemp${i + 1}`];
-          productVariables[`prodFailed${i + 1}`] = 0;
-        }
+  //       // assign productTotal, productPassed, productFailed wit productTemp
+  //       for (let i = 0; i < totalMachines; i++) {
+  //         productVariables[`prodTotal${i + 1}`] =
+  //           globalVariables[`prodTemp${i + 1}`];
+  //         productVariables[`prodPassed${i + 1}`] =
+  //           globalVariables[`prodTemp${i + 1}`];
+  //         productVariables[`prodFailed${i + 1}`] = 0;
+  //       }
     
-        // reset productTemp
-        for (let i = 0; i < totalMachines; i++) {
-          globalVariables[`prodTemp${i + 1}`] = 0;
-        }
+  //       // reset productTemp
+  //       for (let i = 0; i < totalMachines; i++) {
+  //         globalVariables[`prodTemp${i + 1}`] = 0;
+  //       }
     
-        // push data to server
-        let obj = {};
-        if (
-          globalVariables.lotNo != "undefined" ||
-          globalVariables.lotNo != "BAD 255"
-        ) {
-          for (let i = 0; i < totalMachines; i++) {
-            obj[`rawData${i + 1}`] = {
-              machineNo: globalVariables[`machineNo${i + 1}`],
-              lotNo: globalVariables.lotNo,
-              modelNo: globalVariables.modelNo,
-              target: globalVariables.target,
-              cycleTime: globalVariables[`cycleTime${i + 1}`],
-              prodTotal: productVariables[`prodTotal${i + 1}`],
-              prodPassed: productVariables[`prodPassed${i + 1}`],
-              prodFailed: productVariables[`prodFailed${i + 1}`],
-              downTimeType: globalVariables[`downTimeType${i + 1}`],
-              stateStatus: globalVariables[`stateStatus${i + 1}`],
-              machineOn: globalVariables[`machineOn${i + 1}`],
-              oeeIndicator: globalVariables.oeeIndicator,
-              availableIndicator: globalVariables.availableIndicator,
-              performanceIndicator: globalVariables.performanceIndicator,
-              qualityIndicator: globalVariables.qualityIndicator,
-              year: String(year),
-              month: String(month),
-              day: String(day),
-              hour: String(hour),
-              minute: String(minute),
-              dateCreated: String(dateCreated),
-            };
+  //       // push data to server
+  //       let obj = {};
+  //       if (
+  //         globalVariables.lotNo != "undefined" ||
+  //         globalVariables.lotNo != "BAD 255"
+  //       ) {
+  //         for (let i = 0; i < totalMachines; i++) {
+  //           obj[`rawData${i + 1}`] = {
+  //             machineNo: globalVariables[`machineNo${i + 1}`],
+  //             lotNo: globalVariables.lotNo,
+  //             modelNo: globalVariables.modelNo,
+  //             target: globalVariables.target,
+  //             cycleTime: globalVariables[`cycleTime${i + 1}`],
+  //             prodTotal: productVariables[`prodTotal${i + 1}`],
+  //             prodPassed: productVariables[`prodPassed${i + 1}`],
+  //             prodFailed: productVariables[`prodFailed${i + 1}`],
+  //             downTimeType: globalVariables[`downTimeType${i + 1}`],
+  //             stateStatus: globalVariables[`stateStatus${i + 1}`],
+  //             machineOn: globalVariables[`machineOn${i + 1}`],
+  //             oeeIndicator: globalVariables.oeeIndicator,
+  //             availableIndicator: globalVariables.availableIndicator,
+  //             performanceIndicator: globalVariables.performanceIndicator,
+  //             qualityIndicator: globalVariables.qualityIndicator,
+  //             year: String(year),
+  //             month: String(month),
+  //             day: String(day),
+  //             hour: String(hour),
+  //             minute: String(minute),
+  //             dateCreated: String(dateCreated),
+  //           };
     
-            // obj[`demoData${i + 1}`] = {
-            //   ...obj[`rawData${i + 1}`],
-            //   machineNo: demoMachineNames[i],
-            // };
-          }
+  //           obj[`demoData${i + 1}`] = {
+  //             ...obj[`rawData${i + 1}`],
+  //             machineNo: demoMachineNames[i],
+  //           };
+  //         }
     
-          // Ouput final data
-          console.log(obj);
+  //         // Ouput final data
+  //         console.log(obj);
     
-          // let queries = Object.keys(obj).map((key) => {
-          //   if (key.includes("demo")) {
-          //     return axios.post(
-          //       "https://oee.pambu.org/demo/api/v1/rawData",
-          //       obj[key]
-          //     );
-          //   }
-          //   if (key.includes("raw")) {
-          //     return axios.post(
-          //       "https://oee.pambu.org/nittan/api/v1/rawData",
-          //       obj[key]
-          //     );
-          //   }
-          // });
+  //         let queries = Object.keys(obj).map((key) => {
+  //           if (key.includes("demo")) {
+  //             return axios.post(
+  //               "https://oee.pambu.org/demo/api/v1/rawData",
+  //               obj[key]
+  //             );
+  //           }
+  //           if (key.includes("raw")) {
+  //             return axios.post(
+  //               "https://oee.pambu.org/nittan/api/v1/rawData",
+  //               obj[key]
+  //             );
+  //           }
+  //         });
     
-          // await Promise.any(queries);
-        }
-        // setTimeout(assignAndPushData, 10000)
-      } catch (error) {
-        console.log(error);
-      }
-      assignAndPushData();
-    }, 60000) 
-  })();
+  //         await Promise.any(queries);
+  //       }
+  //       // setTimeout(assignAndPushData, 10000)
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     assignAndPushData();
+  //   }, 60000) 
+  // })();
 
 // Push data after 1 minute
 // timer2 = setTimeout(assignAndPushData, 10000);
