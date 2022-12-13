@@ -73,9 +73,6 @@ for (let i = 0; i < totalMachines; i++) {
   globalVariables[`prodTemp${i + 1}`] = 0;
   globalVariables[`confirmSignal${i + 1}`] = false;
   globalVariables[`machineNo${i + 1}`] = machineNames[i];
-  globalVariables[`prodTotal${i + 1}`] = "";
-  globalVariables[`prodPassed${i + 1}`] = "";
-  globalVariables[`prodFailed${i + 1}`] = "";
 }
 
 // Connect to PLC
@@ -122,10 +119,6 @@ function valuesReady(err, values) {
     return;
   }
   for (let i = 0; i < totalMachines; i++) {
-    // globalVariables[`productOk${i + 1}`] = values[`productOk${i + 1}`];
-    // globalVariables[`confirmSignal${i + 1}`] = values[`confirmSignal${i + 1}`];
-    // globalVariables[`prodTemp${i + 1}`] = values[`prodTemp${i + 1}`];
-
     globalVariables[`cycleTime${i + 1}`] =
       Number(values[`cycleTime${i + 1}`]) / 10;
     globalVariables[`downTimeType${i + 1}`] = values[`downTimeType${i + 1}`];
@@ -157,6 +150,11 @@ function valuesReady(err, values) {
   (function assignAndPushData () {
     setTimeout(async function () {
       try {
+        let productVariables = {};
+        for (let i = 0; i < totalMachines; i++) {
+          productVariables[`prodTotal${i + 1}`] = "";
+          productVariables[`prodPassed${i + 1}`] = "";
+          productVariables[`prodFailed${i + 1}`] = "";}
         let present = new Date();
         let year = present.getFullYear();
         let month = (present.getMonth() + 1).toString().padStart(2, "0");
@@ -168,11 +166,11 @@ function valuesReady(err, values) {
     
         // assign productTotal, productPassed, productFailed wit productTemp
         for (let i = 0; i < totalMachines; i++) {
-          globalVariables[`prodTotal${i + 1}`] =
+          productVariables[`prodTotal${i + 1}`] =
             globalVariables[`prodTemp${i + 1}`];
-          globalVariables[`prodPassed${i + 1}`] =
+          productVariables[`prodPassed${i + 1}`] =
             globalVariables[`prodTemp${i + 1}`];
-          globalVariables[`prodFailed${i + 1}`] = 0;
+          productVariables[`prodFailed${i + 1}`] = 0;
         }
     
         // reset productTemp
@@ -193,9 +191,9 @@ function valuesReady(err, values) {
               modelNo: globalVariables.modelNo,
               target: globalVariables.target,
               cycleTime: globalVariables[`cycleTime${i + 1}`],
-              prodTotal: globalVariables[`prodTotal${i + 1}`],
-              prodPassed: globalVariables[`prodPassed${i + 1}`],
-              prodFailed: globalVariables[`prodFailed${i + 1}`],
+              prodTotal: productVariables[`prodTotal${i + 1}`],
+              prodPassed: productVariables[`prodPassed${i + 1}`],
+              prodFailed: productVariables[`prodFailed${i + 1}`],
               downTimeType: globalVariables[`downTimeType${i + 1}`],
               stateStatus: globalVariables[`stateStatus${i + 1}`],
               machineOn: globalVariables[`machineOn${i + 1}`],
