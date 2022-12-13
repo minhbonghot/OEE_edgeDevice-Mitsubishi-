@@ -118,6 +118,7 @@ function valuesReady(err, values) {
     console.log("SOMETHING WENT WRONG READING VALUES!!!!");
     return;
   }
+
   for (let i = 0; i < totalMachines; i++) {
     globalVariables[`cycleTime${i + 1}`] =
       Number(values[`cycleTime${i + 1}`]) / 10;
@@ -127,6 +128,14 @@ function valuesReady(err, values) {
     globalVariables[`machineNo${i + 1}`] = machineNames[i];
 
     // count
+    if (values[`productOk${i + 1}`] == false) {
+      globalVariables[`confirmSignal${i + 1}`] = true;
+    } else { 
+      if (globalVariables[`confirmSignal${i + 1}`]) {
+        globalVariables[`prodTemp${i + 1}`]++;
+        globalVariables[`confirmSignal${i + 1}`] = false;
+      }
+    }
 
   //   if (values[`productOk${i + 1}`] == false) {
   //     globalVariables[`confirmSignal${i + 1}`] = true;
@@ -241,7 +250,7 @@ function valuesReady(err, values) {
         console.log(error);
       }
       assignAndPushData();
-    }, 60000) 
+    }, 10000) 
   })();
 
 // Push data after 1 minute
