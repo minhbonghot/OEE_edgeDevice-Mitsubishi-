@@ -227,7 +227,7 @@ const main = () => {
             }
       
             // Ouput final data
-            console.log(obj);
+            // console.log(obj);
       
             let queries = Object.keys(obj).map((key) => {
               if (key.includes("demo")) {
