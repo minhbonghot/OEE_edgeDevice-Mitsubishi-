@@ -91,7 +91,7 @@ function MCProtocol(){
 MCProtocol.prototype.setTranslationCB = function(cb) {
 	var self = this;
 	if (typeof cb === "function") { 
-		// outputLog('Translation OK');
+		outputLog('Translation OK');
 		self.translationCB = cb; 
 	}
 }
@@ -99,8 +99,8 @@ MCProtocol.prototype.setTranslationCB = function(cb) {
 MCProtocol.prototype.initiateConnection = function (cParam, callback) {
 	var self = this;
 	if (cParam === undefined) { cParam = {port: 10000, host: '192.168.8.106', ascii: false}; }
-	// outputLog('Initiate Called - Connecting to PLC with address and parameters:');
-	// outputLog(cParam);
+	outputLog('Initiate Called - Connecting to PLC with address and parameters:');
+	outputLog(cParam);
 	if (typeof(cParam.name) === 'undefined') {
 		self.connectionID = cParam.host;
 	} else {
@@ -222,8 +222,8 @@ self.isoclient.on('error', function() {
 		self.connectError.apply(self, arguments);
 });
 
-// outputLog('<initiating a new connection ' + Date() + '>', 1, self.connectionID);
-// outputLog('Attempting to connect to host...', 0, self.connectionID);
+outputLog('<initiating a new connection ' + Date() + '>', 1, self.connectionID);
+outputLog('Attempting to connect to host...', 0, self.connectionID);
 
 }
 
@@ -231,7 +231,7 @@ MCProtocol.prototype.connectError = function(e) {
 	var self = this;
 	
 	// Note that a TCP connection timeout error will appear here.  An MC connection timeout error is a packet timeout.  
-	// outputLog('We Caught a connect error ' + e.code,0,self.connectionID);
+	outputLog('We Caught a connect error ' + e.code,0,self.connectionID);
 	if ((!self.connectCBIssued) && (typeof(self.connectCallback) === "function")) {
 		self.connectCBIssued = true;
 		self.connectCallback(e);
@@ -241,7 +241,7 @@ MCProtocol.prototype.connectError = function(e) {
 
 MCProtocol.prototype.readWriteError = function(e) {
 	var self = this;
-	// outputLog('We Caught a read/write error ' + e.code + ' - resetting connection',0,self.connectionID);
+	outputLog('We Caught a read/write error ' + e.code + ' - resetting connection',0,self.connectionID);
 	self.isoConnectionState = 0;
 	self.connectionReset();
 }
@@ -261,15 +261,15 @@ MCProtocol.prototype.packetTimeout = function(packetType, packetSeqNum) {
 	// }	
 	// outputLog("Unknown timeout error.  Nothing was done - this shouldn't happen.",0,self.connectionID);
 	///////////////////////////////////////
-	// outputLog('PacketTimeout called with type ' + packetType + ' and seq ' + packetSeqNum, 1, self.connectionID);
+	outputLog('PacketTimeout called with type ' + packetType + ' and seq ' + packetSeqNum, 1, self.connectionID);
 	if (packetType === "connect") {
-		// outputLog("TIMED OUT connecting to the PLC - Disconnecting", 0, self.connectionID);
-		// outputLog("Wait for 2 seconds then try again.", 0, self.connectionID);
+		outputLog("TIMED OUT connecting to the PLC - Disconnecting", 0, self.connectionID);
+		outputLog("Wait for 2 seconds then try again.", 0, self.connectionID);
 		self.connectionReset();
-		// outputLog("Scheduling a reconnect from packetTimeout, connect type", 0, self.connectionID);
+		outputLog("Scheduling a reconnect from packetTimeout, connect type", 0, self.connectionID);
 		clearTimeout(self.reconnectTimer);
 		self.reconnectTimer = setTimeout(function() {
-			// outputLog("The scheduled reconnect from packetTimeout, connect type, is happening now", 0, self.connectionID);
+			outputLog("The scheduled reconnect from packetTimeout, connect type, is happening now", 0, self.connectionID);
 			if (self.isoConnectionState === 0) {
 				self.connectNow.apply(self, arguments);
 			}
@@ -277,21 +277,21 @@ MCProtocol.prototype.packetTimeout = function(packetType, packetSeqNum) {
 		return undefined;
 	}
 	if (packetType === "PDU") {
-		// outputLog("TIMED OUT waiting for PDU reply packet from PLC - Disconnecting");
-		// outputLog("Wait for 2 seconds then try again.", 0, self.connectionID);
+		outputLog("TIMED OUT waiting for PDU reply packet from PLC - Disconnecting");
+		outputLog("Wait for 2 seconds then try again.", 0, self.connectionID);
 		self.connectionReset();
-		// outputLog("Scheduling a reconnect from packetTimeout, connect type", 0, self.connectionID);
+		outputLog("Scheduling a reconnect from packetTimeout, connect type", 0, self.connectionID);
 		clearTimeout(self.reconnectTimer);
 		self.reconnectTimer = setTimeout(function() {
-			// outputLog("The scheduled reconnect from packetTimeout, PDU type, is happening now", 0, self.connectionID);
+			outputLog("The scheduled reconnect from packetTimeout, PDU type, is happening now", 0, self.connectionID);
 			self.connectNow.apply(self, arguments);
 		}, 2000, self.connectionParams);
 		return undefined;
 	}
 	if (packetType === "read") {
-		// outputLog("READ TIMEOUT on sequence number " + packetSeqNum, 0, self.connectionID);
+		outputLog("READ TIMEOUT on sequence number " + packetSeqNum, 0, self.connectionID);
 		if (self.isoConnectionState === 4) { // Reset before calling writeResponse so ResetNow will take place this cycle 
-			// outputLog("ConnectionReset from read packet timeout.", 0, self.connectionID);
+			outputLog("ConnectionReset from read packet timeout.", 0, self.connectionID);
 			self.connectionReset();
 		}
 		self.readResponse(undefined, self.findReadIndexOfSeqNum(packetSeqNum));
@@ -305,15 +305,15 @@ MCProtocol.prototype.packetTimeout = function(packetType, packetSeqNum) {
 	// 	}
 
 	if (packetType === "write") {
-		// outputLog("WRITE TIMEOUT on sequence number " + packetSeqNum, 0, self.connectionID);
+		outputLog("WRITE TIMEOUT on sequence number " + packetSeqNum, 0, self.connectionID);
 		if (self.isoConnectionState === 4) { // Reset before calling writeResponse so ResetNow will take place this cycle 
-			// outputLog("ConnectionReset from write packet timeout.", 0, self.connectionID);
+			outputLog("ConnectionReset from write packet timeout.", 0, self.connectionID);
 			self.connectionReset();
 		}
 		self.writeResponse(undefined, self.findWriteIndexOfSeqNum(packetSeqNum));
 		return undefined;
 	}
-	// outputLog("Unknown timeout error.  Nothing was done - this shouldn't happen.");
+	outputLog("Unknown timeout error.  Nothing was done - this shouldn't happen.");
 
 	
 }
@@ -329,7 +329,7 @@ MCProtocol.prototype.findReadIndexOfSeqNum = function(seqNum) {
 
 MCProtocol.prototype.onTCPConnect = function() {
 	var self = this;
-	// outputLog('TCP Connection Established to ' + self.isoclient.remoteAddress + ' on port ' + self.isoclient.remotePort,0,self.connectionID);
+	outputLog('TCP Connection Established to ' + self.isoclient.remoteAddress + ' on port ' + self.isoclient.remotePort,0,self.connectionID);
 
 	// Track the connection state
 	self.isoConnectionState = 4;  // 4 = all connected, simple with MC protocol.  Other protocols have a negotiation/session packet as well.
@@ -355,10 +355,10 @@ MCProtocol.prototype.onTCPConnect = function() {
 MCProtocol.prototype.writeItems = function(arg, value, cb) {
 	var self = this;
 	var i;
-	// outputLog("Preparing to WRITE " + arg,0,self.connectionID);
+	outputLog("Preparing to WRITE " + arg,0,self.connectionID);
 
 	if (self.isWriting()) {
-		// outputLog("You must wait until all previous writes have finished before scheduling another. ",0,self.connectionID); 
+		outputLog("You must wait until all previous writes have finished before scheduling another. ",0,self.connectionID); 
 		return; 
 	}
 	
@@ -390,7 +390,7 @@ MCProtocol.prototype.writeItems = function(arg, value, cb) {
 	for (i=self.instantWriteBlockList.length-1;i>=0;i--) {
 		if (self.instantWriteBlockList[i] === undefined) {
 			self.instantWriteBlockList.splice(i,1);
-			// outputLog("Dropping an undefined write item.");
+			outputLog("Dropping an undefined write item.");
 		}
 	}
 	self.prepareWritePacket();
@@ -420,7 +420,7 @@ MCProtocol.prototype.addItems = function(arg) {
 MCProtocol.prototype.addItemsNow = function(arg) {
 	var self = this;
 	var i;
-	// outputLog("Adding " + arg,0,self.connectionID);
+	outputLog("Adding " + arg,0,self.connectionID);
 	addItemsFlag = false;
 	if (typeof arg === "string" && arg !== "_COMMERR") { 
 		self.polledReadBlockList.push(stringToMCAddr(self.translationCB(arg), arg, self.octalInputOutput));
@@ -436,7 +436,7 @@ MCProtocol.prototype.addItemsNow = function(arg) {
 	for (i=self.polledReadBlockList.length-1;i>=0;i--) {
 		if (self.polledReadBlockList[i] === undefined) {
 			self.polledReadBlockList.splice(i,1);
-			// outputLog("Dropping an undefined request item.");
+			outputLog("Dropping an undefined request item.");
 		}
 	}
 //	prepareReadPacket();
@@ -456,9 +456,9 @@ MCProtocol.prototype.removeItemsNow = function(arg) {
 		self.polledReadBlockList = [];
 	} else if (typeof arg === "string") {
 		for (i = 0; i < self.polledReadBlockList.length; i++) {
-			// outputLog('TCBA ' + self.translationCB(arg));
+			outputLog('TCBA ' + self.translationCB(arg));
 			if (self.polledReadBlockList[i].addr === self.translationCB(arg)) {
-				// outputLog('Splicing');
+				outputLog('Splicing');
 				self.polledReadBlockList.splice(i, 1);
 			}
 		}
@@ -479,7 +479,7 @@ MCProtocol.prototype.readAllItems = function(arg) {
 	var self = this;
 	var i;
 
-	// outputLog("Reading All Items (readAllItems was called)",1,self.connectionID);
+	outputLog("Reading All Items (readAllItems was called)",1,self.connectionID);
 	
 	if (typeof arg === "function") {
 		self.readDoneCallback = arg;
@@ -488,7 +488,7 @@ MCProtocol.prototype.readAllItems = function(arg) {
 	}	
 	
 	if (self.isoConnectionState !== 4) { 
-		// outputLog("Unable to read when not connected. Return bad values.",0,self.connectionID);
+		outputLog("Unable to read when not connected. Return bad values.",0,self.connectionID);
 	} // For better behaviour when auto-reconnecting - don't return now
 	
 	//Check if ALL are done...  You might think we could look at parallel jobs, and for the most part we can, but if one just finished and we end up here before starting another, it's bad.
@@ -504,7 +504,7 @@ MCProtocol.prototype.readAllItems = function(arg) {
 	
 	// Now we check the array of adding and removing things.  Only now is it really safe to do this.  
 	self.addRemoveArray.forEach(function(element){
-		// outputLog('Adding or Removing ' + util.format(element), 1, self.connectionID);
+		outputLog('Adding or Removing ' + util.format(element), 1, self.connectionID);
 		if (element.action === 'remove') {
 			self.removeItemsNow(element.arg);
 		} 
@@ -519,7 +519,7 @@ MCProtocol.prototype.readAllItems = function(arg) {
 	
 	// ideally...  incrementSequenceNumbers();
 	
-	// outputLog("Calling SRP from RAI",1,self.connectionID);
+	outputLog("Calling SRP from RAI",1,self.connectionID);
 	self.sendReadPacket(); // Note this sends the first few read packets depending on parallel connection restrictions.   
 }
 
@@ -551,7 +551,7 @@ MCProtocol.prototype.isWriting = function() {
 
 MCProtocol.prototype.clearReadPacketTimeouts = function() {
 	var self = this;
-	// outputLog('Clearing read PacketTimeouts',1,self.connectionID);
+	outputLog('Clearing read PacketTimeouts',1,self.connectionID);
 	// Before we initialize the readPacketArray, we need to loop through all of them and clear timeouts.  
 	for (i=0;i<self.readPacketArray.length;i++) {
 		clearTimeout(self.readPacketArray[i].timeout);
@@ -562,7 +562,7 @@ MCProtocol.prototype.clearReadPacketTimeouts = function() {
 
 MCProtocol.prototype.clearWritePacketTimeouts = function() {
 	var self = this;
-	// outputLog('Clearing write PacketTimeouts',1,self.connectionID);
+	outputLog('Clearing write PacketTimeouts',1,self.connectionID);
 	// Before we initialize the readPacketArray, we need to loop through all of them and clear timeouts.  
 	for (i=0;i<self.writePacketArray.length;i++) {
 		clearTimeout(self.writePacketArray[i].timeout);
@@ -628,7 +628,7 @@ MCProtocol.prototype.prepareWritePacket = function() {
 	
 		// How many parts?
 		self.globalWriteBlockList[i].parts = Math.ceil(self.globalWriteBlockList[i].byteLengthWrite/maxByteRequest); 
-		// outputLog("globalWriteBlockList " + i + " parts is " + self.globalWriteBlockList[i].parts + " offset is " + self.globalWriteBlockList[i].offset + " MBR is " + maxByteRequest,2);
+		outputLog("globalWriteBlockList " + i + " parts is " + self.globalWriteBlockList[i].parts + " offset is " + self.globalWriteBlockList[i].offset + " MBR is " + maxByteRequest,2);
 		
 		self.globalWriteBlockList[i].requestReference = [];
 		
@@ -706,7 +706,7 @@ MCProtocol.prototype.prepareWritePacket = function() {
 			self.writePacketArray[thisPacketNumber].itemList.push(requestList[i]);			
 		}
 	}
-	// outputLog("WPAL is " + self.writePacketArray.length, 1);
+	outputLog("WPAL is " + self.writePacketArray.length, 1);
 }
 
 
@@ -720,7 +720,7 @@ MCProtocol.prototype.prepareReadPacket = function() {
 	for (i=itemList.length-1;i>=0;i--) {
 		if (itemList[i] === undefined) {
 			itemList.splice(i,1);
-			// outputLog("Dropping an undefined request item.",0,self.connectionID);
+			outputLog("Dropping an undefined request item.",0,self.connectionID);
 		}
 	}
 	
@@ -762,7 +762,7 @@ MCProtocol.prototype.prepareReadPacket = function() {
 			self.globalReadBlockList[thisBlock].itemReference.push(itemList[i]);
 //			outputLog("Not optimizing.");
 		} else {
-			// outputLog("Performing optimization of item " + itemList[i].addr + " with " + self.globalReadBlockList[thisBlock].addr,1);
+			outputLog("Performing optimization of item " + itemList[i].addr + " with " + self.globalReadBlockList[thisBlock].addr,1);
 			// This next line checks the maximum.  
 			// Think of this situation - we have a large request of 40 bytes starting at byte 10.  
 			//	Then someone else wants one byte starting at byte 12.  The block length doesn't change.
@@ -785,7 +785,7 @@ MCProtocol.prototype.prepareReadPacket = function() {
 					((itemList[i].offset - self.globalReadBlockList[thisBlock].offset)*2 + Math.ceil(itemList[i].byteLength/itemList[i].multidtypelen))*itemList[i].multidtypelen
 				);
 			}
-			// outputLog("Optimized byte length is now " + self.globalReadBlockList[thisBlock].byteLength,1);
+			outputLog("Optimized byte length is now " + self.globalReadBlockList[thisBlock].byteLength,1);
 						
 			// Point the buffers (byte and quality) to a sliced version of the optimized block.  This is by reference (same area of memory)
 		if (itemList[i].bitNative) {  // Again a special case.  
@@ -899,7 +899,7 @@ MCProtocol.prototype.sendReadPacket = function() {
 	var i, j, curLength, returnedBfr, routerLength;
 	var flagReconnect = false;
 	
-	// outputLog("SendReadPacket called",1,self.connectionID);
+	outputLog("SendReadPacket called",1,self.connectionID);
 	
 	for (i = 0;i < self.readPacketArray.length; i++) {
 		if (self.readPacketArray[i].sent) { continue; }
@@ -922,17 +922,17 @@ MCProtocol.prototype.sendReadPacket = function() {
 				returnedBfr = MCAddrToBuffer1E(self.readPacketArray[i].itemList[j],false /* not writing */,self.isAscii);
 			}
 
-			// outputLog('The Returned MC Buffer is:',2);
-			// outputLog(returnedBfr, 2);
-			// outputLog("The returned buffer length is " + returnedBfr.length, 2);
+			outputLog('The Returned MC Buffer is:',2);
+			outputLog(returnedBfr, 2);
+			outputLog("The returned buffer length is " + returnedBfr.length, 2);
 			
 			returnedBfr.copy(self.readReq, curLength);
 			curLength += returnedBfr.length;
 		}
 
-		// outputLog("The final send buffer is:", 2);
+		outputLog("The final send buffer is:", 2);
 		if (!self.isAscii) {
-			// outputLog(self.readReq.slice(0,curLength), 2);
+			outputLog(self.readReq.slice(0,curLength), 2);
 		}
 		
 		if (self.isoConnectionState == 4) {
@@ -946,7 +946,7 @@ MCProtocol.prototype.sendReadPacket = function() {
 					writeBuf[31] = self.readPacketArray[i].itemList[0].areaSLMPCodeAscii.charCodeAt(1);
 				}
 				self.isoclient.write(writeBuf);
-				// outputLog(writeBuf, 2);
+				outputLog(writeBuf, 2);
 			} else {
 				self.isoclient.write(self.readReq.slice(0,curLength));  // was 31
 			}
@@ -954,7 +954,7 @@ MCProtocol.prototype.sendReadPacket = function() {
 			self.readPacketArray[i].rcvd = false;
 			self.readPacketArray[i].timeoutError = false;
 			self.parallelJobsNow += 1;
-			// outputLog('Sending Read Packet SEQ ' + self.readPacketArray[i].seqNum,1);	
+			outputLog('Sending Read Packet SEQ ' + self.readPacketArray[i].seqNum,1);	
 		} else {
 //			outputLog('Somehow got into read block without proper isoConnectionState of 4.  Disconnect.');
 //			connectionReset();
@@ -965,13 +965,13 @@ MCProtocol.prototype.sendReadPacket = function() {
 			self.readPacketArray[i].timeoutError = true;	
 			if (!flagReconnect) {
 				// Prevent duplicates
-				// outputLog('Not Sending Read Packet because we are not connected - ISO CS is ' + self.isoConnectionState,0,self.connectionID);	
+				outputLog('Not Sending Read Packet because we are not connected - ISO CS is ' + self.isoConnectionState,0,self.connectionID);	
 			}
 			// This is essentially an instantTimeout.  
 			if (self.isoConnectionState == 0) {
 				flagReconnect = true;
 			}
-			// outputLog('Requesting PacketTimeout Due to ISO CS NOT 4 - READ SN ' + self.readPacketArray[i].seqNum,1,self.connectionID);
+			outputLog('Requesting PacketTimeout Due to ISO CS NOT 4 - READ SN ' + self.readPacketArray[i].seqNum,1,self.connectionID);
 			self.readPacketArray[i].timeout = setTimeout(function() {
 				self.packetTimeout.apply(self, arguments);
 			}, 0, "read", self.readPacketArray[i].seqNum); 
@@ -980,7 +980,7 @@ MCProtocol.prototype.sendReadPacket = function() {
 
 	if (flagReconnect) {
 		setTimeout(function() {
-			// outputLog("The scheduled reconnect from sendReadPacket is happening now",1,self.connectionID);	
+			outputLog("The scheduled reconnect from sendReadPacket is happening now",1,self.connectionID);	
 			self.connectNow(self.connectionParams);  // We used to do this NOW - not NextTick() as we need to mark isoConnectionState as 1 right now.  Otherwise we queue up LOTS of connects and crash.
 		}, 0);
 	}
@@ -1013,14 +1013,14 @@ MCProtocol.prototype.sendWritePacket = function() {
 			curLength += returnedBfr.length;
 		}
 	
-		// outputLog("The returned buffer length is " + returnedBfr.length,1);
+		outputLog("The returned buffer length is " + returnedBfr.length,1);
 		
 		if (self.isoConnectionState === 4) {
 			self.writePacketArray[i].timeout = setTimeout(function() {
 				self.packetTimeout.apply(self, arguments);
 			}, self.globalTimeout, "write", self.writePacketArray[i].seqNum); 
-			// outputLog("Actual Send Packet:",2);
-			// outputLog(self.writeReq.slice(0,curLength),2);
+			outputLog("Actual Send Packet:",2);
+			outputLog(self.writeReq.slice(0,curLength),2);
 			if (self.isAscii) {
 				var writeBuf = asciize(self.writeReq.slice(0,curLength));
 				if (self.frame == '3E') {
@@ -1035,7 +1035,7 @@ MCProtocol.prototype.sendWritePacket = function() {
 			self.writePacketArray[i].rcvd = false;
 			self.writePacketArray[i].timeoutError = false;
 			self.parallelJobsNow += 1;
-			// outputLog('Sending Write Packet With Sequence Number ' + self.writePacketArray[i].seqNum,1,self.connectionID);
+			outputLog('Sending Write Packet With Sequence Number ' + self.writePacketArray[i].seqNum,1,self.connectionID);
 		} else {
 			// This is essentially an instantTimeout.  
 			self.writePacketArray[i].sent = true;
@@ -1058,7 +1058,7 @@ MCProtocol.prototype.sendWritePacket = function() {
 	}
 	if (flagReconnect) {
 		setTimeout(function() {
-			// outputLog("The scheduled reconnect from sendWritePacket is happening now",1,self.connectionID);	
+			outputLog("The scheduled reconnect from sendWritePacket is happening now",1,self.connectionID);	
 			self.connectNow(self.connectionParams);  // We used to do this NOW - not NextTick() as we need to mark isoConnectionState as 1 right now.  Otherwise we queue up LOTS of connects and crash.
 		}, 0);
 	}
@@ -1082,8 +1082,8 @@ MCProtocol.prototype.onResponse = function(rawdata) {
 	} else {
 		data = binarize(rawdata);
 		if (typeof(data) === 'undefined') {
-			// outputLog('Failed ASCII conversion to binary on reply. Ignoring packet.');
-			// outputLog(data,0);
+			outputLog('Failed ASCII conversion to binary on reply. Ignoring packet.');
+			outputLog(data,0);
 			return null;
 		}
 	}
@@ -1092,27 +1092,27 @@ MCProtocol.prototype.onResponse = function(rawdata) {
 
 	// NOT SO FAST - can't do this here.  If we time out, then later get the reply, we can't decrement this twice.  Or the CPU will not like us.  Do it if not rcvd.  parallelJobsNow--;
 
-	// outputLog("onResponse called with length " + data.length,1);
+	outputLog("onResponse called with length " + data.length,1);
 	
 	if (data.length < 2) { 
-		// outputLog('DATA LESS THAN 2 BYTES RECEIVED.  NO PROCESSING WILL OCCUR - CONNECTION RESET.');
-		// outputLog(data,0);
+		outputLog('DATA LESS THAN 2 BYTES RECEIVED.  NO PROCESSING WILL OCCUR - CONNECTION RESET.');
+		outputLog(data,0);
 		self.connectionReset();
 		return null;
 	}
 
 	if (data.length < 11 && self.frame == '3E') { 
-		// outputLog('DATA LESS THAN 11 BYTES RECEIVED FOR 3E FRAME.  NO PROCESSING WILL OCCUR - CONNECTION RESET.');
-		// outputLog(data,0);
+		outputLog('DATA LESS THAN 11 BYTES RECEIVED FOR 3E FRAME.  NO PROCESSING WILL OCCUR - CONNECTION RESET.');
+		outputLog(data,0);
 		self.connectionReset();
 		return null;
 	}
 	
-	// outputLog('Valid MC Response Received (not yet checked for error)', 1);
+	outputLog('Valid MC Response Received (not yet checked for error)', 1);
 	
 	// Log the receive
-	// outputLog('Received ' + data.length + ' bytes of data from PLC.', 1); 
-	// outputLog(data, 2);
+	outputLog('Received ' + data.length + ' bytes of data from PLC.', 1); 
+	outputLog(data, 2);
 	
 	// Check the sequence number	
 
@@ -1125,19 +1125,19 @@ MCProtocol.prototype.onResponse = function(rawdata) {
 
 	if (self.isReading()) {
 		isReadResponse = true;
-		// outputLog("Received Read Response",1);		
+		outputLog("Received Read Response",1);		
 		self.readResponse(data);
 	}
 	
 	if (self.isWriting()) {
 		isWriteResponse = true;
-		// outputLog("Received Write Response",1);
+		outputLog("Received Write Response",1);
 		self.writeResponse(data);
 	}
 		
 	if ((!isReadResponse) && (!isWriteResponse)) {
-		// outputLog("Packet arrived wasn't a write or read reply - dropping");
-		// outputLog(data,0);
+		outputLog("Packet arrived wasn't a write or read reply - dropping");
+		outputLog(data,0);
 		// 	I guess this isn't a showstopper, just ignore it.  In situations like this we used to reset.
 		return null;
 	}
@@ -1159,26 +1159,26 @@ MCProtocol.prototype.writeResponse = function(data) {
 	}
 	
 	if (typeof(sentPacketNum) === 'undefined') {
-		// outputLog('WARNING: Received a write packet when none marked as sent',0,self.connectionID);
+		outputLog('WARNING: Received a write packet when none marked as sent',0,self.connectionID);
 		return null;
 	}
 	
 	if (self.writePacketArray[sentPacketNum].rcvd) {
-		// outputLog('WARNING: Received a write packet that was already marked as received',0,self.connectionID);
+		outputLog('WARNING: Received a write packet that was already marked as received',0,self.connectionID);
 		return null;
 	}
 	
 	for (itemCount = 0; itemCount < self.writePacketArray[sentPacketNum].itemList.length; itemCount++) {
 		dataPointer = processMBWriteItem(data, self.writePacketArray[sentPacketNum].itemList[itemCount], dataPointer, self.frame);
 		if (!dataPointer) {
-			// outputLog('Stopping Processing Write Response Packet due to unrecoverable packet error');
+			outputLog('Stopping Processing Write Response Packet due to unrecoverable packet error');
 			break;
 		}
 	}
 
 	// Make a note of the time it took the PLC to process the request.  
 	self.writePacketArray[sentPacketNum].reqTime = process.hrtime(self.writePacketArray[sentPacketNum].reqTime);
-	// outputLog('Time is ' + self.writePacketArray[sentPacketNum].reqTime[0] + ' seconds and ' + Math.round(self.writePacketArray[sentPacketNum].reqTime[1]*10/1e6)/10 + ' ms.',1);
+	outputLog('Time is ' + self.writePacketArray[sentPacketNum].reqTime[0] + ' seconds and ' + Math.round(self.writePacketArray[sentPacketNum].reqTime[1]*10/1e6)/10 + ' ms.',1);
 
 //	writePacketArray.splice(sentPacketNum, 1);
 	if (!self.writePacketArray[sentPacketNum].rcvd) {
@@ -1190,7 +1190,7 @@ MCProtocol.prototype.writeResponse = function(data) {
 	if (!self.writePacketArray.every(doneSending)) {
 //			readPacketInterval = setTimeout(prepareReadPacket, 3000);
 		self.sendWritePacket();
-		// outputLog("Sending again",1);
+		outputLog("Sending again",1);
 	} else {
 		for (i=0;i<self.writePacketArray.length;i++) {
 			self.writePacketArray[i].sent = false;
@@ -1203,7 +1203,7 @@ MCProtocol.prototype.writeResponse = function(data) {
 			// Post-process the write code and apply the quality.  
 			// Loop through the global block list...
 			writePostProcess(self.globalWriteBlockList[i]);
-			// outputLog(self.globalWriteBlockList[i].addr + ' write completed with quality ' + self.globalWriteBlockList[i].writeQuality,0);
+			outputLog(self.globalWriteBlockList[i].addr + ' write completed with quality ' + self.globalWriteBlockList[i].writeQuality,0);
 			if (!isQualityOK(self.globalWriteBlockList[i].writeQuality)) { anyBadQualities = true; }
 		}
 		if (typeof(self.writeDoneCallback === 'function')) {
@@ -1221,7 +1221,7 @@ MCProtocol.prototype.readResponse = function(data) {
 		dataPointer = 9;
 	}
 
-	// outputLog("ReadResponse called",1,self.connectionID);
+	outputLog("ReadResponse called",1,self.connectionID);
 
 	for (packetCounter = 0; packetCounter < self.readPacketArray.length; packetCounter++) {
 		if (self.readPacketArray[packetCounter].sent && !(self.readPacketArray[packetCounter].rcvd)) {
@@ -1231,13 +1231,13 @@ MCProtocol.prototype.readResponse = function(data) {
 	}
 	
 	if (typeof(rcvdPacketNum) === 'undefined') {
-		// outputLog('WARNING: Received a read response packet that was not marked as sent',0,self.connectionID);
+		outputLog('WARNING: Received a read response packet that was not marked as sent',0,self.connectionID);
 		//TODO - fix the network unreachable error that made us do this		
 		return null;
 	}
 	
 	if (self.readPacketArray[rcvdPacketNum].rcvd) {
-		// outputLog('WARNING: Received a read response packet that was already marked as received',0,self.connectionID);
+		outputLog('WARNING: Received a read response packet that was already marked as received',0,self.connectionID);
 		return null;
 	}
 	
@@ -1245,14 +1245,14 @@ MCProtocol.prototype.readResponse = function(data) {
 		dataPointer = processMBPacket(data, self.readPacketArray[rcvdPacketNum].itemList[itemCount], dataPointer, self.frame);
 		if (!dataPointer && typeof(data) !== "undefined") {
 			// Don't bother showing this message on timeout.
-			// outputLog('Received a ZERO RESPONSE Processing Read Packet due to unrecoverable packet error');
+			outputLog('Received a ZERO RESPONSE Processing Read Packet due to unrecoverable packet error');
 //			break;  // We rely on this for our timeout now.  
 		}
 	}
 	
 	// Make a note of the time it took the PLC to process the request.  
 	self.readPacketArray[rcvdPacketNum].reqTime = process.hrtime(self.readPacketArray[rcvdPacketNum].reqTime);
-	// outputLog('Read Time is ' + self.readPacketArray[rcvdPacketNum].reqTime[0] + ' seconds and ' + Math.round(self.readPacketArray[rcvdPacketNum].reqTime[1]*10/1e6)/10 + ' ms.',1,self.connectionID);
+	outputLog('Read Time is ' + self.readPacketArray[rcvdPacketNum].reqTime[0] + ' seconds and ' + Math.round(self.readPacketArray[rcvdPacketNum].reqTime[1]*10/1e6)/10 + ' ms.',1,self.connectionID);
 
 	// Do the bookkeeping for packet and timeout.  
 	if (!self.readPacketArray[rcvdPacketNum].rcvd) {
@@ -1264,7 +1264,7 @@ MCProtocol.prototype.readResponse = function(data) {
 	
 	if(self.readPacketArray.every(doneSending)) {  // if sendReadPacket returns true we're all done.  
 		// Mark our packets unread for next time.  
-		// outputLog('Every packet done sending',1,self.connectionID);
+		outputLog('Every packet done sending',1,self.connectionID);
 		for (i=0;i<self.readPacketArray.length;i++) {
 			self.readPacketArray[i].sent = false;
 			self.readPacketArray[i].rcvd = false;
@@ -1286,7 +1286,7 @@ MCProtocol.prototype.readResponse = function(data) {
 			for (var k=0;k<self.globalReadBlockList[i].itemReference.length;k++) {
 //				outputLog(self.globalReadBlockList[i].itemReference[k].byteBuffer);
 				processMCReadItem(self.globalReadBlockList[i].itemReference[k],self.isAscii);
-				// outputLog('Address ' + self.globalReadBlockList[i].itemReference[k].addr + ' has value ' + self.globalReadBlockList[i].itemReference[k].value + ' and quality ' + self.globalReadBlockList[i].itemReference[k].quality,1,self.connectionID);
+				outputLog('Address ' + self.globalReadBlockList[i].itemReference[k].addr + ' has value ' + self.globalReadBlockList[i].itemReference[k].value + ' and quality ' + self.globalReadBlockList[i].itemReference[k].quality,1,self.connectionID);
 				if (!isQualityOK(self.globalReadBlockList[i].itemReference[k].quality)) { 
 					anyBadQualities = true; 
 					dataObject[self.globalReadBlockList[i].itemReference[k].useraddr] = self.globalReadBlockList[i].itemReference[k].quality;
@@ -1298,7 +1298,7 @@ MCProtocol.prototype.readResponse = function(data) {
 		
 		// Inform our user that we are done and that the values are ready for pickup.
 
-		// outputLog("We are calling back our readDoneCallback.",1,self.connectionID);
+		outputLog("We are calling back our readDoneCallback.",1,self.connectionID);
 		if (typeof(self.readDoneCallback === 'function')) {
 			self.readDoneCallback(anyBadQualities, dataObject);
 		}
@@ -1307,14 +1307,14 @@ MCProtocol.prototype.readResponse = function(data) {
 		}
 		if (!self.isReading() && self.writeInQueue) { self.sendWritePacket(); }
 	} else {
-		// outputLog("Calling SRP from RR",1,self.connectionID);
+		outputLog("Calling SRP from RR",1,self.connectionID);
 		self.sendReadPacket();
 	}
 }
 
 MCProtocol.prototype.onClientDisconnect = function() {
 	var self = this;
-	// outputLog('TCP DISCONNECTED.');
+	outputLog('TCP DISCONNECTED.');
 	self.connectionCleanup();
 	self.tryingToConnectNow = false;
 }
@@ -1323,7 +1323,7 @@ MCProtocol.prototype.connectionReset = function() {
 	var self = this;
 	self.isoConnectionState = 0;
 	self.resetPending = true;
-	// outputLog('ConnectionReset is happening');
+	outputLog('ConnectionReset is happening');
 	// The problem is that if we are interrupted before a read can be completed, say we get a bogus packet - we'll never recover.
 	// We 
 	if (!self.isReading() && typeof(self.resetTimeout) === 'undefined') { // For now - ignore writes.  && !isWriting()) {	
@@ -1338,21 +1338,21 @@ MCProtocol.prototype.resetNow = function() {
 	var self = this;
 	self.isoConnectionState = 0;
 	self.isoclient.end();
-	// outputLog('ResetNOW is happening');
+	outputLog('ResetNOW is happening');
 	self.resetPending = false;
 	// In some cases, we can have a timeout scheduled for a reset, but we don't want to call it again in that case.
 	// We only want to call a reset just as we are returning values.  Otherwise, we will get asked to read // more values and we will "break our promise" to always return something when asked. 
 	if (typeof(self.resetTimeout) !== 'undefined') {
 		clearTimeout(self.resetTimeout);
 		self.resetTimeout = undefined;
-		// outputLog('Clearing an earlier scheduled reset');
+		outputLog('Clearing an earlier scheduled reset');
 	}
 }
 
 MCProtocol.prototype.connectionCleanup = function() {
 	var self = this;
 	self.isoConnectionState = 0;
-	// outputLog('Connection cleanup is happening');	
+	outputLog('Connection cleanup is happening');	
 	if (typeof(self.isoclient) !== "undefined") {
 		self.isoclient.removeAllListeners('data');
 		self.isoclient.removeAllListeners('error');
@@ -1399,10 +1399,10 @@ function processMBPacket(theData, theItem, thePointer, frame) {
 		theItem.valid = false;
 		if (typeof(theData) !== "undefined") {
 			theItem.errCode = 'Malformed MC Packet - Less Than 2 Bytes.  TDL ' + theData.length + ' TP ' + thePointer + ' RL' + remainingLength;
-			// outputLog(theItem.errCode,0);  // Can't log more info here as we dont have "self" info
+			outputLog(theItem.errCode,0);  // Can't log more info here as we dont have "self" info
 		} else {
 			theItem.errCode = "Timeout error - zero length packet";
-			// outputLog(theItem.errCode,1);  // Can't log more info here as we dont have "self" info
+			outputLog(theItem.errCode,1);  // Can't log more info here as we dont have "self" info
 		}
 		return 0;   			// Hard to increment the pointer so we call it a malformed packet and we're done.      
 	}
@@ -1421,14 +1421,14 @@ function processMBPacket(theData, theItem, thePointer, frame) {
 		if (theData[0] !== 0x81) { // 0x80 = bit reply, 0x81 = word reply
 			theItem.valid = false;
 			theItem.errCode = 'Invalid MC - Expected first byte (binary) to be 0x81 (129) - got ' + decimalToHexString(theData[0]) + " (" + theData[0] + ")";
-			// outputLog(theItem.errCode);
+			outputLog(theItem.errCode);
 			return 1; //thePointer + reportedDataLength + 4;
 		}
 	
 		if (theData[1] !== 0x00) {
 			theItem.valid = false;
 			theItem.errCode = 'MC Error Response - Second Byte is ' + theData[1] + ' and error code is ' + theData[2];
-			// outputLog(theItem.errCode);
+			outputLog(theItem.errCode);
 			return 1; //thePointer + reportedDataLength + 4;   			      
 		}	
 
@@ -1440,7 +1440,7 @@ function processMBPacket(theData, theItem, thePointer, frame) {
 		if (theData.length - 2 !== expectedLength) {
 			theItem.valid = false;
 			theItem.errCode = 'Invalid Response Length - Expected ' + expectedLength + ' but got ' + (theData.length - 2) + ' bytes.';
-			// outputLog(theItem.errCode);
+			outputLog(theItem.errCode);
 			return 1;  
 		}	
 	}
@@ -1462,11 +1462,11 @@ function processMBPacket(theData, theItem, thePointer, frame) {
 		theItem.byteBuffer = theData.slice(2); // This means take to end.
 	}
 	
-	// outputLog('Byte Buffer is:',2);
-	// outputLog(theItem.byteBuffer,2);
+	outputLog('Byte Buffer is:',2);
+	outputLog(theItem.byteBuffer,2);
 	
 	theItem.qualityBuffer.fill(0xC0);  // Fill with 0xC0 (192) which means GOOD QUALITY in the OPC world.  
-	// outputLog('Marking quality as good L' + theItem.qualityBuffer.length,2);
+	outputLog('Marking quality as good L' + theItem.qualityBuffer.length,2);
 		
 	return -1; //thePointer;
 }
@@ -1481,7 +1481,7 @@ function processMBWriteItem(theData, theItem, thePointer, frame) {
 		if (typeof(theData) === 'undefined' || theData.length < 11) {  // Should be at least 11 bytes
 			theItem.valid = false;
 			theItem.errCode = 'Malformed Reply MC Packet - Less Than 11 Bytes' + theData;
-			// outputLog(theItem.errCode);
+			outputLog(theItem.errCode);
 			theItem.writeQualityBuffer.fill(0xFF);  // Note that ff is BAD in our fill here. 		
 			return 0;   			// Hard to increment the pointer so we call it a malformed packet and we're done.      
 		}
@@ -1490,7 +1490,7 @@ function processMBWriteItem(theData, theItem, thePointer, frame) {
 		if (typeof(theData) === 'undefined' || theData.length < 2) {  // Should be at least 11 bytes with 7 byte header
 			theItem.valid = false;
 			theItem.errCode = 'Malformed Reply MC Packet - Less Than 2 Bytes' + theData;
-			// outputLog(theItem.errCode);
+			outputLog(theItem.errCode);
 			theItem.writeQualityBuffer.fill(0xFF);  // Note that ff is BAD in our fill here. 		
 			return 0;   			// Hard to increment the pointer so we call it a malformed packet and we're done.      
 		}
@@ -1499,9 +1499,9 @@ function processMBWriteItem(theData, theItem, thePointer, frame) {
 	
 	if (writeResponse !== 0x00 || (theData[0] !== 0x82) && (theData[0] !== 0x83)) {
 		if (theData.length > 2) {
-			// outputLog ('Received response ' + theData[0] + ' ' + theData[1] + ' ' + theData[2] + ') indicating write error on ' + theItem.addr);
+			outputLog ('Received response ' + theData[0] + ' ' + theData[1] + ' ' + theData[2] + ') indicating write error on ' + theItem.addr);
 		} else {
-			// outputLog ('Received response ' + theData[0] + ' ' + theData[1] + ') indicating write error on ' + theItem.addr);
+			outputLog ('Received response ' + theData[0] + ' ' + theData[1] + ') indicating write error on ' + theItem.addr);
 		}
 		theItem.writeQualityBuffer.fill(0xFF);  // Note that ff is BAD in our fill here.  
 	} else {
@@ -1644,7 +1644,7 @@ function processMCReadItem(theItem, isAscii) {
 						break;
 
 					default:
-						// outputLog("Unknown data type in response - should never happen.  Should have been caught earlier.  " + theItem.datatype);
+						outputLog("Unknown data type in response - should never happen.  Should have been caught earlier.  " + theItem.datatype);
 						return 0;
 				}
 			}
@@ -1667,10 +1667,10 @@ function processMCReadItem(theItem, isAscii) {
 		if (theItem.qualityBuffer[thePointer] !== 0xC0) {
 			theItem.value = theItem.badValue();
 			theItem.quality = ('BAD ' + theItem.qualityBuffer[thePointer]);
-			// outputLog("Item Quality is Bad", 1);			
+			outputLog("Item Quality is Bad", 1);			
 		} else {
 			theItem.quality = ('OK');
-			// outputLog("Item Datatype (single value) is " + theItem.datatype, 1);			
+			outputLog("Item Datatype (single value) is " + theItem.datatype, 1);			
 			switch(theItem.datatype) {
 
 			case "REAL":
@@ -1743,7 +1743,7 @@ function processMCReadItem(theItem, isAscii) {
 				}
 				break;
 			default:
-				// outputLog("Unknown data type in response - should never happen.  Should have been caught earlier.  " + theItem.datatype);
+				outputLog("Unknown data type in response - should never happen.  Should have been caught earlier.  " + theItem.datatype);
 				return 0;		
 			}
 		}
@@ -1839,7 +1839,7 @@ function bufferizeMCItem(theItem, isAscii) {
 					}
 					break;
 				default:
-					// outputLog("Unknown data type when preparing array write packet - should never happen.  Should have been caught earlier.  " + theItem.datatype);
+					outputLog("Unknown data type when preparing array write packet - should never happen.  Should have been caught earlier.  " + theItem.datatype);
 					return 0;		
 			}
 			if (theItem.datatype == 'X' ) {
@@ -1896,9 +1896,9 @@ function bufferizeMCItem(theItem, isAscii) {
 				if (theItem.bitNative) {
 					theItem.writeBuffer.writeUInt8(((theItem.writeValue) ? 0x10 : 0x00), thePointer);  // checked ===true but this caused problems if you write 1
 					theItem.writeBuffer.writeUInt8(0x00, thePointer+1);  
-					// outputLog("Datatype is X writing " + theItem.writeValue + " tpi " + theItem.writeBuffer[0],1);
+					outputLog("Datatype is X writing " + theItem.writeValue + " tpi " + theItem.writeBuffer[0],1);
 				} else {
-					// outputLog("We don't support writing individual bits of non-native types - write the whole word externally please",0);
+					outputLog("We don't support writing individual bits of non-native types - write the whole word externally please",0);
 				}
 // not here				theItem.writeBuffer[1] = 1; // Set transport code to "BIT" to write a single bit. 
 // not here				theItem.writeBuffer.writeUInt16BE(1, 2); // Write only one bit.  				
@@ -1924,7 +1924,7 @@ function bufferizeMCItem(theItem, isAscii) {
 				}
 				break;	
 			default:
-				// outputLog("Unknown data type in write prepare - should never happen.  Should have been caught earlier.  " + theItem.datatype);
+				outputLog("Unknown data type in write prepare - should never happen.  Should have been caught earlier.  " + theItem.datatype);
 				return 0;		
 		}
 		thePointer += theItem.dtypelen; 	
@@ -1966,10 +1966,10 @@ function MCAddrToBuffer1E(addrinfo, isWriting, isAscii) {
 	MCCommand[1] = 0xff;
 	
 	if (isAscii) {
-		// outputLog("We're Ascii",2);
+		outputLog("We're Ascii",2);
 		MCCommand.writeUInt16BE(monitoringTime, 2);
 	} else {
-		// outputLog("We're Binary",2);
+		outputLog("We're Binary",2);
 		MCCommand.writeUInt16LE(monitoringTime, 2);	
 	}
 	
@@ -2048,9 +2048,9 @@ function MCAddrToBuffer3E(addrinfo, isWriting, isAscii) {
 	}
 
 	if (isAscii) {
-		// outputLog("We're Ascii",2);
+		outputLog("We're Ascii",2);
 	} else {
-		// outputLog("We're Binary",2);
+		outputLog("We're Binary",2);
 	}
 	
 	// Set the command
@@ -2164,13 +2164,13 @@ function stringToMCAddr(addr, useraddr, octalInputOutput) {
 	splitString2[0] = splitString2[0].replace("/",".");
 	var splitdot = splitString2[0].split('.');
 	if (splitdot.length > 2) {
-		// outputLog("Error - String Couldn't Split Properly.  Only one dot or slash.");
+		outputLog("Error - String Couldn't Split Properly.  Only one dot or slash.");
 		return undefined;
 	}
 	if (splitdot.length == 2)
 	{
 		postDotNumeric = parseInt(splitdot[1].replace(/[A-z]/gi, ''), 10);
-		// outputLog('PostDotNumeric is ' + postDotNumeric,2);
+		outputLog('PostDotNumeric is ' + postDotNumeric,2);
 		splitString2[0] = splitdot[0];
 	}
 
@@ -2288,7 +2288,7 @@ function stringToMCAddr(addr, useraddr, octalInputOutput) {
 		theItem.dtypelen = 2;  // was 1, not sure why, we read 1 word at a time
 		break;
 	default:
-		// outputLog('Failed to find a match for ' + splitString2[0] + ' possibly because ' + prefix + ' type is not supported yet.');
+		outputLog('Failed to find a match for ' + splitString2[0] + ' possibly because ' + prefix + ' type is not supported yet.');
 		return undefined;
 	}
 
@@ -2356,7 +2356,7 @@ function stringToMCAddr(addr, useraddr, octalInputOutput) {
 		theItem.areaSLMPCodeAscii = 'S*';
 		break;	
 	default:
-		// outputLog('Failed to find a match for ' + theItem.addrtype + ' possibly because that type is not supported yet.');
+		outputLog('Failed to find a match for ' + theItem.addrtype + ' possibly because that type is not supported yet.');
 		return undefined;
 	}
 	
@@ -2387,7 +2387,7 @@ function stringToMCAddr(addr, useraddr, octalInputOutput) {
 
 	// Counter check - can't think of a better way to handle this.
 	if (theItem.addrtype === "CN" && theItem.requestOffset < 200 && (theItem.requestOffset + theItem.arrayLength > 200)) {
-		// outputLog("IMPORTANT NOTE: You can't have a counter array that crosses the 200-point boundary.");
+		outputLog("IMPORTANT NOTE: You can't have a counter array that crosses the 200-point boundary.");
 		return undefined;
 	}
 	
@@ -2465,7 +2465,7 @@ function PLCItem() { // Object
 		case "S":	// State
 			return (isWriting) ? 40 : 16; // 160 points max when writing, 4 points per word = 40 words.  Otherwise 256 points max which is 16 words.
 		default:
-			// outputLog('Failed to find a match for ' + theItem.addrtype + ' possibly because that type is not supported yet.');
+			outputLog('Failed to find a match for ' + theItem.addrtype + ' possibly because that type is not supported yet.');
 			return undefined;
 		}
 	}
@@ -2502,7 +2502,7 @@ function PLCItem() { // Object
 		case "S":	// State
 			return 1; 
 		default:
-			// outputLog('Failed to find a match for ' + theItem.addrtype + ' possibly because that type is not supported yet.');
+			outputLog('Failed to find a match for ' + theItem.addrtype + ' possibly because that type is not supported yet.');
 			return undefined;
 		}
 	}
@@ -2572,7 +2572,7 @@ function PLCItem() { // Object
 			// Convert to string.  
 			return "";
 		default:
-			// outputLog("Unknown data type when figuring out bad value - should never happen.  Should have been caught earlier.  " + this.datatype);
+			outputLog("Unknown data type when figuring out bad value - should never happen.  Should have been caught earlier.  " + this.datatype);
 			return 0;
 		}
 	};
