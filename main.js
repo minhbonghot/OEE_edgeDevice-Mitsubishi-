@@ -85,7 +85,7 @@ const main = () => {
 
   function connected(err) {
     if (typeof err !== "undefined") {
-      console.log(err);
+      // console.log(err);
       process.exit();
     }
 
@@ -116,7 +116,7 @@ const main = () => {
 
   function valuesReady(err, values) {
     if (err) {
-      console.log("SOMETHING WENT WRONG READING VALUES!!!!");
+      // console.log("SOMETHING WENT WRONG READING VALUES!!!!");
       return;
     }
 
@@ -243,7 +243,7 @@ const main = () => {
       }
       // setTimeout(assignAndPushData, 10000)
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     globalVariables.lotNo = "BAD 255";
     // assignAndPushData();
