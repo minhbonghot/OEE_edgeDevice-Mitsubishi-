@@ -99,7 +99,7 @@ const main = () => {
   
     (function loop1() {
       conn.readAllItems(valuesReady)
-      setTimeout(loop1, 200)
+      setTimeout(loop1, 150)
     })();
     
     // let readVar = () => {
@@ -156,9 +156,9 @@ const main = () => {
   }
   
   
-  // const assignAndPushData = async () => {
-    (function assignAndPushData () {
-      setTimeout(async function () {
+  const assignAndPushData = async () => {
+    // (function assignAndPushData () {
+    //   setTimeout(async function () {
         try {
           let productVariables = {};
           for (let i = 0; i < totalMachines; i++) {
@@ -250,9 +250,8 @@ const main = () => {
         } catch (error) {
           console.log(error);
         }
-        assignAndPushData();
-      }, 60000) 
-    })();
+        // assignAndPushData();
+      }
   
   // Push data after 1 minute
   // timer2 = setTimeout(assignAndPushData, 10000);
@@ -273,9 +272,9 @@ const main = () => {
   }
   
   
-    // setInterval(() => {
-    //   assignAndPushData();
-    // }, 1000);
+    setInterval(() => {
+      assignAndPushData();
+    }, 60000);
 } 
 
 main();
