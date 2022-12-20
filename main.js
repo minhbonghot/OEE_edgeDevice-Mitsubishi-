@@ -10,15 +10,6 @@ const main = () => {
     "LATHE_SEAT1",
     "LATHE_SEAT2",
     "LATHE_CHAMBER",
-    "LATHE_7",
-    "LATHE_8",
-    "LATHE_9",
-    "LATHE_10",
-    "LATHE_11",
-    "LATHE_12",
-    "LATHE_13",
-    "LATHE_14",
-    "LATHE_15",
   ];
 
   const demoMachineNames = [
@@ -28,18 +19,9 @@ const main = () => {
     "Demo 4",
     "Demo 5",
     "Demo 6",
-    "Demo 7",
-    "Demo 8",
-    "Demo 9",
-    "Demo 10",
-    "Demo 11",
-    "Demo 12",
-    "Demo 13",
-    "Demo 14",
-    "Demo 15",
   ];
 
-  const totalMachines = 15;
+  const totalMachines = 6;
 
   // Variables
   let variablesForConnection = {
