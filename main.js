@@ -27,13 +27,16 @@ const main = () => {
   let variablesForConnection = {
     modelNo: "RSTR0,10", // String that is 10 characters (5 words) starting at R0
     lotNo: "RSTR10,10", //String that is 10 characters (5 words) starting at R10
+    targetByShift: "D103,1",
+    targetByLot: "D105,1",
   };
 
   let globalVariables = {
     modelNo: "",
     lotNo: "",
-    target: 0,
-    oeeIndicator: 0,
+    targetByShift: 0,
+    targetByLot: 0,
+    oeeIndicator: 0,    
     availableIndicator: 0,
     performanceIndicator: 0,
     qualityIndicator: 0,
@@ -135,6 +138,8 @@ const main = () => {
 
     globalVariables.lotNo = regex(cutString(values.lotNo));
     globalVariables.modelNo = regex(cutString(values.modelNo));
+    globalVariables.targetByShift = values.targetByShift;
+    globalVariables.targetByLot = values.targetByLot;
   }
 
   const assignAndPushData = async () => {
@@ -177,7 +182,8 @@ const main = () => {
             machineNo: globalVariables[`machineNo${i + 1}`],
             lotNo: globalVariables.lotNo,
             modelNo: globalVariables.modelNo,
-            target: globalVariables.target,
+            targetByShift: globalVariables.targetByShift,
+            targetByLot: globalVariables.targetByLot,
             cycleTime: globalVariables[`cycleTime${i + 1}`],
             prodTotal: productVariables[`prodTotal${i + 1}`],
             prodPassed: productVariables[`prodPassed${i + 1}`],
@@ -204,7 +210,7 @@ const main = () => {
         }
 
         // Ouput final data
-        console.log(obj);
+        // console.log(obj);
 
           let queries = Object.keys(obj).map((key) => {
             if (key.includes("demo")) {
