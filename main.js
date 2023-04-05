@@ -36,7 +36,7 @@ const main = () => {
     lotNo: "",
     targetByShift: 0,
     targetByLot: 0,
-    oeeIndicator: 0,    
+    oeeIndicator: 0,
     availableIndicator: 0,
     performanceIndicator: 0,
     qualityIndicator: 0,
@@ -176,7 +176,10 @@ const main = () => {
       }
       // push data to server
       let obj = {};
-      if (globalVariables.lotNo !== "undefined" & globalVariables.lotNo !== "BAD 255") {
+      if (
+        (globalVariables.lotNo !== "undefined") &
+        (globalVariables.lotNo !== "BAD 255")
+      ) {
         for (let i = 0; i < totalMachines; i++) {
           obj[`rawData${i + 1}`] = {
             machineNo: globalVariables[`machineNo${i + 1}`],
@@ -211,7 +214,33 @@ const main = () => {
 
         // Ouput final data
         // console.log(obj);
+        const retryPushData = async () => {
+          let currentTry = 0;
 
+          while (true) {
+            try {
+              await pushRawData();
+              break;
+            } catch (error) {
+              currentTry++;
+              console.log("push Data failed, retry attemps: ", currentTry);
+              if (currentTry >= 5) {
+                break;
+              }
+            }
+            await sleepFunc(5000);
+          }
+        };
+
+        const sleepFunc = async (ms) => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, ms);
+          });
+        };
+
+        const pushRawData = async () => {
           let queries = Object.keys(obj).map((key) => {
             if (key.includes("demo")) {
               return axios.post(
@@ -228,7 +257,10 @@ const main = () => {
           });
 
           await Promise.any(queries);
+        };
+        retryPushData();
       }
+
       // setTimeout(assignAndPushData, 10000)
     } catch (error) {
       // console.log(error);
