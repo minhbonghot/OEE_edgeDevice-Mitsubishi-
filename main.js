@@ -3,61 +3,42 @@ const conn = new mc();
 const axios = require("axios");
 
 const main = () => {
-  const machineNames = [
-    "STEM_ROUGH",
-    "LATHE_HEAD1",
-    "LATHE_HEAD2",
-    "LATHE_SEAT1",
-    "LATHE_SEAT2",
-    "LATHE_CHAMBER",
-  ];
+  const machineNames = ["MB1", "MB2", "MB3", "MB4", "MB5", "MB6"];
 
-  const demoMachineNames = [
-    "Demo 1",
-    "Demo 2",
-    "Demo 3",
-    "Demo 4",
-    "Demo 5",
-    "Demo 6",
-  ];
+  const demoMachineNames = ["RK1", "RK2", "RK3", "RK4", "RK5", "RK6"];
 
   const totalMachines = 6;
 
   // Variables
   let variablesForConnection = {
-    modelNo: "RSTR0,10", // String that is 10 characters (5 words) starting at R0
-    lotNo: "RSTR10,10", //String that is 10 characters (5 words) starting at R10
-    targetByShift: "D103,1",
-    targetByLot: "D105,1",
+    modelNo: "RSTR10,10", // String that is 10 characters (5 words) starting at R0
+    // lotNo: "RSTR10,10", //String that is 10 characters (5 words) starting at R10
+    //targetByShift: "D103,1",
+    //targetByLot: "D105,1",
+    productTarget: "D105,1",
   };
 
   let globalVariables = {
     modelNo: "",
-    lotNo: "",
-    targetByShift: 0,
-    targetByLot: 0,
-    oeeIndicator: 0,
-    availableIndicator: 0,
-    performanceIndicator: 0,
-    qualityIndicator: 0,
+    //lotNo: "",
+    productTarget: "",
   };
 
   for (let i = 0; i < totalMachines; i++) {
     let interval = 100 + i * 10;
-    variablesForConnection[`downTimeType${i + 1}`] = `D${interval},1`;
+    variablesForConnection[`downTimeNo${i + 1}`] = `D${interval},1`;
     variablesForConnection[`cycleTime${i + 1}`] = `D${interval + 1},1`;
     variablesForConnection[`machineOn${i + 1}`] = `D${interval + 2}.0`;
     variablesForConnection[`stateStatus${i + 1}`] = `D${interval + 2}.1`;
-    variablesForConnection[`productOk${i + 1}`] = `D${interval + 2}.2`;
+    variablesForConnection[`productCount${i + 1}`] = `D${interval + 7},1`;
+    variablesForConnection[`timeRunningCount${i + 1}`] = `D${interval + 8},1`;
 
-    globalVariables[`downTimeType${i + 1}`] = "";
+    globalVariables[`downTimeNo${i + 1}`] = "";
     globalVariables[`cycleTime${i + 1}`] = "";
     globalVariables[`machineOn${i + 1}`] = false;
     globalVariables[`stateStatus${i + 1}`] = false;
-    globalVariables[`productOk${i + 1}`] = false;
-
-    globalVariables[`prodTemp${i + 1}`] = 0;
-    globalVariables[`confirmSignal${i + 1}`] = false;
+    globalVariables[`productCount${i + 1}`] = "";
+    globalVariables[`timeRunningCount${i + 1}`] = "";
     globalVariables[`machineNo${i + 1}`] = machineNames[i];
   }
 
@@ -86,17 +67,6 @@ const main = () => {
       conn.readAllItems(valuesReady);
       setTimeout(loop1, 150);
     })();
-
-    // let readVar = () => {
-    //   conn.readAllItems(valuesReady)
-    //   timer1 = setTimeout(readVar, 100)
-    // }
-
-    // timer1 = setTimeout(readVar, 100)
-
-    //   setInterval(() => {
-    //     conn.readAllItems(valuesReady);
-    //   }, 100);
   }
 
   function valuesReady(err, values) {
@@ -108,50 +78,52 @@ const main = () => {
     for (let i = 0; i < totalMachines; i++) {
       globalVariables[`cycleTime${i + 1}`] =
         Number(values[`cycleTime${i + 1}`]) / 10;
-      globalVariables[`downTimeType${i + 1}`] = values[`downTimeType${i + 1}`];
+      if (
+        (values[`downTimeNo${i + 1}`] != 3) &
+        (values[`downTimeNo${i + 1}`] != 5) &
+        (values[`downTimeNo${i + 1}`] != 7) &
+        (values[`downTimeNo${i + 1}`] != 9)
+      ) {
+        globalVariables[`downTimeNo${i + 1}`] = 0;
+      } else {
+        globalVariables[`downTimeNo${i + 1}`] = values[`downTimeNo${i + 1}`];
+      }
       globalVariables[`machineOn${i + 1}`] = values[`machineOn${i + 1}`];
       globalVariables[`stateStatus${i + 1}`] = values[`stateStatus${i + 1}`];
       globalVariables[`machineNo${i + 1}`] = machineNames[i];
+      globalVariables[`productCount${i + 1}`] = values[`productCount${i + 1}`];
+      globalVariables[`timeRunningCount${i + 1}`] =
+        values[`timeRunningCount${i + 1}`];
 
       // count
-      if (values[`productOk${i + 1}`] == false) {
-        globalVariables[`confirmSignal${i + 1}`] = true;
-      } else {
-        if (globalVariables[`confirmSignal${i + 1}`]) {
-          globalVariables[`prodTemp${i + 1}`]++;
-          globalVariables[`confirmSignal${i + 1}`] = false;
-        }
-      }
-
-      //   if (values[`productOk${i + 1}`] == false) {
-      //     globalVariables[`confirmSignal${i + 1}`] = true;
-      //   }
-      //   if (
-      //     values[`productOk${i + 1}`] &&
-      //     globalVariables[`confirmSignal${i + 1}`]
-      //   ) {
-      //     globalVariables[`prodTemp${i + 1}`] =
-      //       globalVariables[`prodTemp${i + 1}`] + 1;
+      // if (values[`productOk${i + 1}`] == false) {
+      //   globalVariables[`confirmSignal${i + 1}`] = true;
+      // } else {
+      //   if (globalVariables[`confirmSignal${i + 1}`]) {
+      //     globalVariables[`prodTemp${i + 1}`]++;
       //     globalVariables[`confirmSignal${i + 1}`] = false;
       //   }
+      // }
     }
 
-    globalVariables.lotNo = regex(cutString(values.lotNo));
+    // globalVariables.lotNo = regex(cutString(values.lotNo));
     globalVariables.modelNo = regex(cutString(values.modelNo));
-    globalVariables.targetByShift = values.targetByShift;
-    globalVariables.targetByLot = values.targetByLot;
+    // globalVariables.modelNo = values.modelNo;
+    // globalVariables.targetByShift = values.targetByShift;
+    // globalVariables.targetByLot = values.targetByLot;
+    globalVariables.productTarget = values.productTarget;
   }
 
   const assignAndPushData = async () => {
     // (function assignAndPushData () {
     //   setTimeout(async function () {
     try {
-      let productVariables = {};
-      for (let i = 0; i < totalMachines; i++) {
-        productVariables[`prodTotal${i + 1}`] = "";
-        productVariables[`prodPassed${i + 1}`] = "";
-        productVariables[`prodFailed${i + 1}`] = "";
-      }
+      // let productVariables = {};
+      // for (let i = 0; i < totalMachines; i++) {
+      //   productVariables[`prodTotal${i + 1}`] = "";
+      //   productVariables[`prodPassed${i + 1}`] = "";
+      //   productVariables[`prodFailed${i + 1}`] = "";
+      // }
       let present = new Date();
       let year = present.getFullYear();
       let month = (present.getMonth() + 1).toString().padStart(2, "0");
@@ -162,58 +134,59 @@ const main = () => {
       let dateCreated = `${year}-${month}-${day}T${hour}:${minute}:00.000Z`;
 
       // assign productTotal, productPassed, productFailed wit productTemp
-      for (let i = 0; i < totalMachines; i++) {
-        productVariables[`prodTotal${i + 1}`] =
-          globalVariables[`prodTemp${i + 1}`];
-        productVariables[`prodPassed${i + 1}`] =
-          globalVariables[`prodTemp${i + 1}`];
-        productVariables[`prodFailed${i + 1}`] = 0;
-      }
+      // for (let i = 0; i < totalMachines; i++) {
+      //   productVariables[`prodTotal${i + 1}`] =
+      //     globalVariables[`prodTemp${i + 1}`];
+      //   productVariables[`prodPassed${i + 1}`] =
+      //     globalVariables[`prodTemp${i + 1}`];
+      //   productVariables[`prodFailed${i + 1}`] = 0;
+      // }
 
       // reset productTemp
-      for (let i = 0; i < totalMachines; i++) {
-        globalVariables[`prodTemp${i + 1}`] = 0;
-      }
+      // for (let i = 0; i < totalMachines; i++) {
+      //   globalVariables[`prodTemp${i + 1}`] = 0;
+      // }
       // push data to server
       let obj = {};
       if (
-        (globalVariables.lotNo !== "undefined") &
-        (globalVariables.lotNo !== "BAD 255")
+        (globalVariables.modelNo !== "undefined") &
+        (globalVariables.modelNo !== "BAD 255")
       ) {
         for (let i = 0; i < totalMachines; i++) {
           obj[`rawData${i + 1}`] = {
+            lineNo: "Máy Bế",
             machineNo: globalVariables[`machineNo${i + 1}`],
-            lotNo: globalVariables.lotNo,
+            // lotNo: globalVariables.lotNo,
             modelNo: globalVariables.modelNo,
-            targetByShift: globalVariables.targetByShift,
-            targetByLot: globalVariables.targetByLot,
+            // targetByShift: globalVariables.targetByShift,
+            // targetByLot: globalVariables.targetByLot,
+            productTarget: globalVariables.productTarget,
             cycleTime: globalVariables[`cycleTime${i + 1}`],
-            prodTotal: productVariables[`prodTotal${i + 1}`],
-            prodPassed: productVariables[`prodPassed${i + 1}`],
-            prodFailed: productVariables[`prodFailed${i + 1}`],
-            downTimeType: globalVariables[`downTimeType${i + 1}`],
+            // prodTotal: productVariables[`prodTotal${i + 1}`],
+            // prodPassed: productVariables[`prodPassed${i + 1}`],
+            // prodFailed: productVariables[`prodFailed${i + 1}`],
+            downTimeNo: globalVariables[`downTimeNo${i + 1}`],
             stateStatus: globalVariables[`stateStatus${i + 1}`],
             machineOn: globalVariables[`machineOn${i + 1}`],
-            oeeIndicator: globalVariables.oeeIndicator,
-            availableIndicator: globalVariables.availableIndicator,
-            performanceIndicator: globalVariables.performanceIndicator,
-            qualityIndicator: globalVariables.qualityIndicator,
-            year: String(year),
-            month: String(month),
-            day: String(day),
-            hour: String(hour),
-            minute: String(minute),
+            productCount: globalVariables[`productCount${i + 1}`],
+            timeRunningCount: globalVariables[`timeRunningCount${i + 1}`],
+            // year: String(year),
+            // month: String(month),
+            // day: String(day),
+            // hour: String(hour),
+            // minute: String(minute),
             dateCreated: String(dateCreated),
           };
 
           obj[`demoData${i + 1}`] = {
             ...obj[`rawData${i + 1}`],
+            lineNo: "Máy Ra Khổ",
             machineNo: demoMachineNames[i],
           };
         }
 
         // Ouput final data
-        // console.log(obj);
+        console.log(obj);
         const retryPushData = async () => {
           let currentTry = 0;
 
@@ -223,6 +196,7 @@ const main = () => {
               break;
             } catch (error) {
               currentTry++;
+              console.log(error);
               console.log("push Data failed, retry attemps: ", currentTry);
               if (currentTry >= 5) {
                 break;
@@ -242,35 +216,29 @@ const main = () => {
 
         const pushRawData = async () => {
           let queries = Object.keys(obj).map((key) => {
-            if (key.includes("demo")) {
+            if (key.includes("")) {
               return axios.post(
-                "https://oee.pambu.org/demo/api/v1/rawData",
+                "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
                 obj[key]
               );
             }
-            if (key.includes("raw")) {
-              return axios.post(
-                "https://oee.pambu.org/nittan/api/v1/rawData",
-                obj[key]
-              );
-            }
+            // if (key.includes("raw")) {
+            //   return axios.post(
+            //     "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
+            //     obj[key]
+            //   );
+            // }
           });
 
           await Promise.any(queries);
         };
         retryPushData();
       }
-
-      // setTimeout(assignAndPushData, 10000)
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
-    globalVariables.lotNo = "BAD 255";
-    // assignAndPushData();
+    globalVariables.modelNo = "BAD 255";
   };
-
-  // Push data after 1 minute
-  // timer2 = setTimeout(assignAndPushData, 10000);
 
   function cutString(arr) {
     let newName = "";
