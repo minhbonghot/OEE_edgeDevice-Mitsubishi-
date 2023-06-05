@@ -186,7 +186,7 @@ const main = () => {
         }
 
         // Ouput final data
-        console.log(obj);
+        // console.log(obj);
         const retryPushData = async () => {
           let currentTry = 0;
 
