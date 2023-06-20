@@ -9,7 +9,7 @@ const main = () => {
 
   // Variables
   let variablesForConnection = {
-    modelNo: "RSTR0,10", // String that is 10 characters (5 words) starting at R0
+    modelNo: "RSTR1000,30", // String that is 10 characters (5 words) starting at R0
     // lotNo: "RSTR10,10", //String that is 10 characters (5 words) starting at R10
     //targetByShift: "D103,1",
     //targetByLot: "D105,1",
@@ -75,7 +75,7 @@ const main = () => {
 
     for (let i = 0; i < totalMachines; i++) {
       globalVariables[`cycleTime${i + 1}`] =
-        Number(values[`cycleTime${i + 1}`]) / 10;
+        Number(values[`cycleTime${i + 1}`]) / 100;
       globalVariables[`downTimeNo${i + 1}`] = values[`downTimeNo${i + 1}`];
       globalVariables[`machineOn${i + 1}`] = values[`machineOn${i + 1}`];
       globalVariables[`stateStatus${i + 1}`] = values[`stateStatus${i + 1}`];
@@ -175,7 +175,7 @@ const main = () => {
         }
 
         // Ouput final data
-        console.log(obj);
+        // console.log(obj);
         const retryPushData = async () => {
           let currentTry = 0;
 
@@ -203,25 +203,25 @@ const main = () => {
           });
         };
 
-        // const pushRawData = async () => {
-        //   let queries = Object.keys(obj).map((key) => {
-        //     if (key.includes("")) {
-        //       return axios.post(
-        //         "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
-        //         obj[key]
-        //       );
-        //     }
-        //     // if (key.includes("raw")) {
-        //     //   return axios.post(
-        //     //     "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
-        //     //     obj[key]
-        //     //   );
-        //     // }
-        //   });
+        const pushRawData = async () => {
+          let queries = Object.keys(obj).map((key) => {
+            if (key.includes("")) {
+              return axios.post(
+                "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
+                obj[key]
+              );
+            }
+            // if (key.includes("raw")) {
+            //   return axios.post(
+            //     "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
+            //     obj[key]
+            //   );
+            // }
+          });
 
-        //   await Promise.any(queries);
-        // };
-        // retryPushData();
+          await Promise.any(queries);
+        };
+        retryPushData();
       }
     } catch (error) {
       console.log(error);
@@ -245,7 +245,7 @@ const main = () => {
 
   setInterval(() => {
     assignAndPushData();
-  }, 10000);
+  }, 60000);
 };
 
 main();
