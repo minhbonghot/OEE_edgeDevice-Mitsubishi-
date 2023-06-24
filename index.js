@@ -175,7 +175,7 @@ const main = () => {
         }
 
         // Ouput final data
-        // console.log(obj);
+        console.log(obj);
         const retryPushData = async () => {
           let currentTry = 0;
 
@@ -203,25 +203,25 @@ const main = () => {
           });
         };
 
-        const pushRawData = async () => {
-          let queries = Object.keys(obj).map((key) => {
-            if (key.includes("")) {
-              return axios.post(
-                "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
-                obj[key]
-              );
-            }
-            // if (key.includes("raw")) {
-            //   return axios.post(
-            //     "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
-            //     obj[key]
-            //   );
-            // }
-          });
+        // const pushRawData = async () => {
+        //   let queries = Object.keys(obj).map((key) => {
+        //     if (key.includes("")) {
+        //       return axios.post(
+        //         "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
+        //         obj[key]
+        //       );
+        //     }
+        //     // if (key.includes("raw")) {
+        //     //   return axios.post(
+        //     //     "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
+        //     //     obj[key]
+        //     //   );
+        //     // }
+        //   });
 
-          await Promise.any(queries);
-        };
-        retryPushData();
+        //   await Promise.any(queries);
+        // };
+        // retryPushData();
       }
     } catch (error) {
       console.log(error);
@@ -245,7 +245,7 @@ const main = () => {
 
   setInterval(() => {
     assignAndPushData();
-  }, 60000);
+  }, 10000);
 };
 
 main();

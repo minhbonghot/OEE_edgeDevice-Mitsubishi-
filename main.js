@@ -81,8 +81,8 @@ const main = () => {
       if (
         (values[`downTimeNo${i + 1}`] != 3) &
         (values[`downTimeNo${i + 1}`] != 5) &
-        (values[`downTimeNo${i + 1}`] != 7) &
-        (values[`downTimeNo${i + 1}`] != 9)
+        (values[`downTimeNo${i + 1}`] != 7)
+    
       ) {
         globalVariables[`downTimeNo${i + 1}`] = 0;
       } else {
@@ -218,7 +218,7 @@ const main = () => {
           let queries = Object.keys(obj).map((key) => {
             if (key.includes("")) {
               return axios.post(
-                "https://oee-rebuild.pambu.org/duc-thanh/api/v1/rawData",
+                "https://oee-rebuild.pambu.org/demo/api/v1/rawData",
                 obj[key]
               );
             }
