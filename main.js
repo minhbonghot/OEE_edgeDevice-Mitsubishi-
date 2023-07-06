@@ -65,7 +65,7 @@ const main = () => {
 
     (function loop1() {
       conn.readAllItems(valuesReady);
-      setTimeout(loop1, 150);
+      setTimeout(loop1, 50);
     })();
   }
 
